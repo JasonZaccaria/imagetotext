@@ -1,0 +1,267 @@
+.Login {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  background-image: linear-gradient(rgb(135, 28, 168), rgb(62, 34, 185));
+}
+
+/*.login-navbar {
+  width: 100%;
+  height: 100%;
+  grid-column-start: 1;
+  grid-column-end: 13;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.navbar-buttons {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}*/
+
+.hamburger-container {
+  width: 100%;
+  height: 100%;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburger-button-container {
+  width: 60%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: green;
+}
+
+.hamburger-button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.hamburger-button:hover {
+  cursor: pointer;
+}
+
+.bar-one {
+  width: 100%;
+  height: 4px;
+  background-color: black;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.bar-two {
+  width: 100%;
+  height: 4px;
+  background-color: black;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.bar-three {
+  width: 100%;
+  height: 4px;
+  background-color: black;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.translated-bar-one {
+  width: 100%;
+  height: 4px;
+  background-color: black;
+  border-radius: 5px;
+  transform: rotate(45deg) translate(7px, 5px);
+  transition: all 0.3s ease-in-out;
+}
+
+.translated-bar-two {
+  width: 100%;
+  height: 4px;
+  background-color: black;
+  border-radius: 5px;
+  display: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.translated-bar-three {
+  width: 100%;
+  height: 4px;
+  background-color: black;
+  border-radius: 5px;
+  transform: rotate(-45deg) translate(5px, -5px);
+  transition: all 0.3s ease-in-out;
+}
+
+.login-navbar {
+  position: fixed;
+  height: 100%;
+  width: 0;
+  z-index: 1;
+  background-color: rgb(27, 27, 27);
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-title {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-bottom: solid 2px white;
+}
+
+.navbar-links {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.register-redirect {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.register-redirect:hover {
+  cursor: pointer;
+  background-color: rgb(41, 41, 41);
+}
+
+.home-redirect {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.home-redirect:hover {
+  cursor: pointer;
+  background-color: rgb(41, 41, 41);
+}
+
+.login-form-container {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  grid-column-start: 2;
+  grid-column-end: 12;
+  grid-row-start: 3;
+  grid-row-end: 10;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.login-form-title {
+  width: 100%;
+  height: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+}
+
+#loginFormId {
+  width: 100%;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-email-container {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#loginEmailId {
+  width: 80%;
+  height: 50%;
+  display: flex;
+  background-color: transparent;
+  border: none;
+  border-bottom: solid 2px lightgray;
+}
+
+.login-password-container {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#loginPasswordId {
+  width: 80%;
+  height: 50%;
+  display: flex;
+  background-color: transparent;
+  border: none;
+  border-bottom: solid 2px lightgray;
+}
+
+.forgot-password:hover {
+  cursor: pointer;
+}
+
+.login-submit-container {
+  width: 100%;
+  height: 33.33%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-submit-button {
+  width: 30%;
+  height: 30%;
+  border: none;
+  border-radius: 16px;
+  background-image: linear-gradient(
+    to left,
+    rgb(202, 17, 119),
+    rgb(36, 106, 187)
+  );
+}
+
+.login-submit-button:hover {
+  cursor: pointer;
+}

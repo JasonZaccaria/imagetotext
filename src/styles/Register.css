@@ -1,0 +1,118 @@
+.Register {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  background-image: linear-gradient(rgb(135, 28, 168), rgb(62, 34, 185));
+}
+
+.navbar {
+  width: 100%;
+  height: 100%;
+  grid-column-start: 1;
+  grid-column-end: 13;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.home-button {
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 7;
+  grid-column-end: 9;
+}
+
+.form-container {
+  /*background-color: rgb(42, 173, 145);*/
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  grid-column-start: 2;
+  grid-column-end: 12;
+  grid-row-start: 3;
+  grid-row-end: 10;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.register-title {
+  width: 100%;
+  height: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+}
+
+#formId {
+  width: 100%;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.enter-email-container {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#emailId {
+  width: 80%;
+  height: 50%;
+  display: flex;
+  background-color: transparent;
+  border: none;
+  border-bottom: solid 2px lightgray;
+}
+
+.enter-password-container {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#passwordId {
+  width: 80%;
+  height: 50%;
+  display: flex;
+  background-color: transparent;
+  border: none;
+  border-bottom: solid 2px lightgray;
+}
+
+.submit-container {
+  width: 100%;
+  height: 33.33%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-button {
+  width: 30%;
+  height: 30%;
+  border: none;
+  border-radius: 16px;
+  background-image: linear-gradient(
+    to left,
+    rgb(202, 17, 119),
+    rgb(36, 106, 187)
+  );
+}
+
+.submit-button:hover {
+  cursor: pointer;
+}
