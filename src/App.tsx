@@ -5,7 +5,10 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import User from "./components/User";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Hamburger from "./components/Hamburger";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import ProtectedUser from "./components/ProtectedUser";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {
   return (
@@ -13,9 +16,13 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/register" element={<Register />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/user" element={<User />}></Route>
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/register" element={<Register />}></Route>
+          </Route>
+          <Route element={<ProtectedUser />}>
+            <Route path="/user" element={<User />}></Route>
+          </Route>
         </Routes>
       </Router>
     </div>

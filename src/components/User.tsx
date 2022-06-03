@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import logo from "./logo.svg";
 import "../styles/User.css";
-import { isConstructorDeclaration } from "typescript";
 
 function User() {
   //function to post user data to register them
