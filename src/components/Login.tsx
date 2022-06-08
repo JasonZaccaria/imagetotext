@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import "../styles/Login.css";
 import { isConstructorDeclaration } from "typescript";
 import Hamburger from "./Hamburger";
+import SlidingNavbar from "./SlidingNavbar";
 
 function Login() {
   //func below checks for position of click to close our nav menu when open
@@ -48,16 +49,13 @@ function Login() {
   }
   return (
     <div className="Login">
-      <div className="hamburger-container" onClick={navbarOpen}>
-        <Hamburger />
-      </div>
-      <div className="login-navbar" id="navbarId">
-        <div className="nav-title">Menu</div>
-        <div className="navbar-links">
-          <div className="register-redirect">Register</div>
-          <div className="home-redirect">Home</div>
+      <nav className="navbar-top">
+        <h1 className="login-title">Image To Text</h1>
+        <div className="hamburger-container" onClick={navbarOpen}>
+          <Hamburger />
         </div>
-      </div>
+      </nav>
+      <SlidingNavbar />
       <div className="login-form-container">
         <div className="login-form-title">Login</div>
         <form

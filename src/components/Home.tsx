@@ -10,10 +10,14 @@ import {
 } from "react-router-dom";
 import { NONAME } from "dns";
 import Hamburger from "./Hamburger";
-
+import SlidingNavbar from "./SlidingNavbar";
 function Home() {
   //below we have our state for saving our user's log in status
   let [loggedIn, setLoggedIn] = useState(false);
+  //let [sidePanel, setSidePanel] = useState(false);
+  //let [sidePanelCount, setSidePanelCount] = useState(0);
+  let sidePanel = useRef(false);
+  let sidePanelCount = useRef(0);
   //below we grab the uploaded file and file name
   async function getFile(e: any) {
     //below function grabs uploaded file
@@ -87,7 +91,7 @@ function Home() {
   }
   useEffect(() => {
     buttonRender(auth);
-  });
+  }, [loggedIn]);
   async function imagConverter(e: any) {
     e.preventDefault();
     console.log("hi");
@@ -103,13 +107,72 @@ function Home() {
     const responseJson = await response.json();
     console.log(responseJson);
   }
+
+  function navbarOpen(): void {
+    //this function opens up the side navbar on button click and renders only specific buttons
+    //depending on if user is logged in or not
+    //setSidePanel(true);
+    //setSidePanelCount((sidePanelCount += 1));
+    sidePanel.current = true;
+    sidePanelCount.current = sidePanelCount.current += 1;
+    const navbar = document.getElementById("navbarId");
+    const registerRedirect = document.getElementById("register-redirect-id");
+    const loginRedirect = document.getElementById("login-redirect-id");
+    const logoutRedirect = document.getElementById("logout-redirect-id");
+    const userRedirect = document.getElementById("user-redirect-id");
+
+    if (navbar!.style.width != "50%") {
+      navbar!.style.width = "50%";
+      sidePanel.current = true;
+    } else {
+      navbar!.style.width = "0%";
+      sidePanel.current = false;
+    }
+    //navbar!.style.width = "50%";
+    console.log(loggedIn);
+    if (loggedIn) {
+      registerRedirect!.style.display = "none";
+      loginRedirect!.style.display = "none";
+      logoutRedirect!.style.display = "flex";
+      userRedirect!.style.display = "flex";
+    } else {
+      registerRedirect!.style.display = "flex";
+      loginRedirect!.style.display = "flex";
+      logoutRedirect!.style.display = "none";
+      userRedirect!.style.display = "none";
+    }
+  }
+
+  function closeSideBar(e: any) {
+    sidePanelCount.current++;
+    console.log(sidePanelCount.current);
+    const navbar = document.getElementById("navbarId");
+    const menuButton = document.getElementById("menu-btn-id");
+    const mouseX = e.pageX;
+    const mouseY = e.pageY;
+    if (sidePanel.current && sidePanelCount.current >= 3) {
+      navbar!.style.width = "0%";
+      sidePanelCount.current = 0;
+      sidePanel.current = false;
+      //also i need to reset the hamburger classes
+      /*menuButton?.classList.remove("open");*/
+    } else if (!sidePanel.current) {
+      navbar!.style.width = "0%";
+      sidePanelCount.current = 0;
+      sidePanel.current = false;
+      /*menuButton?.classList.add("open");*/
+    }
+  }
+
+  //closeSideBar();
+
   return (
-    <div className="Home">
+    <div className="Home" onClick={closeSideBar}>
       <header className="navbar">
         <div className="page-title-container">
           <h1 className="page-title">Image To Text</h1>
         </div>
-        <nav className="hamburger-styling">
+        <nav className="hamburger-styling" onClick={navbarOpen}>
           <Hamburger />
         </nav>
         <nav className="links">
@@ -135,6 +198,7 @@ function Home() {
           </Link>
         </nav>
       </header>
+      <SlidingNavbar />
       <h1 className="main-title">Turn any image into usable text below!</h1>
       <section className="main-box">
         <div className="text-conversion-box">
