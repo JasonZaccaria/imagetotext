@@ -11,15 +11,30 @@ import {
 import { NONAME } from "dns";
 import Hamburger from "./Hamburger";
 import SlidingNavbar from "./SlidingNavbar";
+import LoadingAnimation from "./LoadingAnimation";
+
 function Home() {
-  //below we have our state for saving our user's log in status
+  //below we have our state for saving our user's log in status, when our menu
+  //is open, as well as if our sidepanel is open
+  let [testVar, setTestVar] = useState(); ////////////////////////////////////////////////////////////////////////
   let [loggedIn, setLoggedIn] = useState(false);
-  //let [sidePanel, setSidePanel] = useState(false);
-  //let [sidePanelCount, setSidePanelCount] = useState(0);
+  let [menu, setMenu] = useState(false);
   let sidePanel = useRef(false);
   let sidePanelCount = useRef(0);
   //below we grab the uploaded file and file name
   async function getFile(e: any) {
+    //Here are where changes om 6/13 start
+    const loadingScreen = document.getElementById("loading-container-id");
+    const imageDropTitle = document.getElementById("image-drop-title-id");
+    const fileUploadLabel = document.getElementById("file-upload-label-id");
+    const convertedTextContainer = document.getElementById(
+      "converted-text-container-id"
+    );
+    const saveData = document.getElementById("save-data-id");
+    loadingScreen!.style.display = "flex";
+    imageDropTitle!.style.display = "none";
+    fileUploadLabel!.style.display = "none";
+    //here are where changes on 6/13 end
     //below function grabs uploaded file
     console.log(typeof e);
     const imgFile = e.target.files[0];
@@ -38,6 +53,14 @@ function Home() {
     });
     const responseJson = await response.json();
     console.log(responseJson);
+    //this code below happens after we get our response
+    loadingScreen!.style.display = "none";
+    /*imageDropTitle!.style.display = "flex";
+    fileUploadLabel!.style.display = "flex";*/
+    convertedTextContainer!.style.display = "flex";
+    ///////////////////////////////////////////////////////////convertedTextContainer!.innerHTML = responseJson["success"];
+    setTestVar(responseJson["success"]); ////////////////////////////////////////////////////////////////
+    saveData!.style.display = "flex";
   }
 
   //below we use a get request to autenticate user form server and update loggedIn state
@@ -144,6 +167,7 @@ function Home() {
   }
 
   function closeSideBar(e: any) {
+    console.log(window.innerWidth);
     sidePanelCount.current++;
     console.log(sidePanelCount.current);
     const navbar = document.getElementById("navbarId");
@@ -151,20 +175,36 @@ function Home() {
     const mouseX = e.pageX;
     const mouseY = e.pageY;
     if (sidePanel.current && sidePanelCount.current >= 3) {
+      console.log("h");
       navbar!.style.width = "0%";
       sidePanelCount.current = 0;
       sidePanel.current = false;
       //also i need to reset the hamburger classes
-      /*menuButton?.classList.remove("open");*/
+      menuButton?.classList.remove("open");
+      setMenu(false);
     } else if (!sidePanel.current) {
+      console.log("hi");
       navbar!.style.width = "0%";
       sidePanelCount.current = 0;
       sidePanel.current = false;
-      /*menuButton?.classList.add("open");*/
+      //setMenu(false);
+      //menuButton?.classList.add("open");
     }
   }
+  //below event listener closed the side navbar and resets menu button back to
+  //normal after window resize
+  window.addEventListener("resize", (e) => {
+    console.log("hello change");
+    const navbar = document.getElementById("navbarId");
+    const menuButton = document.getElementById("menu-btn-id");
 
-  //closeSideBar();
+    if (window.innerWidth > 1023) {
+      navbar!.style.width = "0%";
+      sidePanelCount.current = 0;
+      menuButton?.classList.remove("open");
+      setMenu(false);
+    }
+  });
 
   return (
     <div className="Home" onClick={closeSideBar}>
@@ -173,7 +213,7 @@ function Home() {
           <h1 className="page-title">Image To Text</h1>
         </div>
         <nav className="hamburger-styling" onClick={navbarOpen}>
-          <Hamburger />
+          <Hamburger menu={menu} />
         </nav>
         <nav className="links">
           <Link
@@ -202,26 +242,49 @@ function Home() {
       <h1 className="main-title">Turn any image into usable text below!</h1>
       <section className="main-box">
         <div className="text-conversion-box">
-          <h2 className="image-drop-title">Drop image here!</h2>
+          <div className="loading-container" id="loading-container-id">
+            <h1>Loading</h1>
+            <div className="loading-animation-display">
+              <LoadingAnimation />
+            </div>
+          </div>
+          <div
+            className="converted-text-container"
+            id="converted-text-container-id"
+          >
+            <div className="converted-text">{testVar}</div>
+          </div>
+          <h2 className="image-drop-title" id="image-drop-title-id">
+            Drop image here!
+          </h2>
           <input
             className="file-upload"
             id="file"
             type="file"
             onChange={getFile}
           ></input>
-          <label htmlFor="file" className="file-upload-label">
+          <label
+            htmlFor="file"
+            className="file-upload-label"
+            id="file-upload-label-id"
+          >
             Upload image
           </label>
         </div>
       </section>
-      <div className="save-data">
-        <button
-          type="submit"
-          className="save-data-button"
-          onClick={imagConverter}
-        >
-          Save conversion
-        </button>
+      <div className="save-data" id="save-data-id">
+        <div className="button-container">
+          <button
+            type="submit"
+            className="save-data-button"
+            onClick={imagConverter}
+          >
+            Save conversion
+          </button>
+          <button type="submit" className="new-upload-button">
+            New upload
+          </button>
+        </div>
       </div>
     </div>
   );
