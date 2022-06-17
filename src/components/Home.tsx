@@ -16,14 +16,14 @@ import LoadingAnimation from "./LoadingAnimation";
 function Home() {
   //below we have our state for saving our user's log in status, when our menu
   //is open, as well as if our sidepanel is open
-  let [testVar, setTestVar] = useState(); ////////////////////////////////////////////////////////////////////////
+  let [testVar, setTestVar] = useState();
   let [loggedIn, setLoggedIn] = useState(false);
   let [menu, setMenu] = useState(false);
+  let [currentFile, setCurrentFile] = useState(new Blob());
   let sidePanel = useRef(false);
   let sidePanelCount = useRef(0);
   //below we grab the uploaded file and file name
   async function getFile(e: any) {
-    //Here are where changes om 6/13 start
     const loadingScreen = document.getElementById("loading-container-id");
     const imageDropTitle = document.getElementById("image-drop-title-id");
     const fileUploadLabel = document.getElementById("file-upload-label-id");
@@ -34,12 +34,13 @@ function Home() {
     loadingScreen!.style.display = "flex";
     imageDropTitle!.style.display = "none";
     fileUploadLabel!.style.display = "none";
-    //here are where changes on 6/13 end
-    //below function grabs uploaded file
     console.log(typeof e);
     const imgFile = e.target.files[0];
+    console.log(typeof imgFile);
     const formData = new FormData();
     formData.append("file", imgFile);
+    console.log(formData);
+    setCurrentFile(e.target.files[0]);
     const url = "http://127.0.0.1:8000/imageconvert";
     const response = await fetch(url, {
       method: "POST",
@@ -58,8 +59,7 @@ function Home() {
     /*imageDropTitle!.style.display = "flex";
     fileUploadLabel!.style.display = "flex";*/
     convertedTextContainer!.style.display = "flex";
-    ///////////////////////////////////////////////////////////convertedTextContainer!.innerHTML = responseJson["success"];
-    setTestVar(responseJson["success"]); ////////////////////////////////////////////////////////////////
+    setTestVar(responseJson["success"]);
     saveData!.style.display = "flex";
   }
 
@@ -112,9 +112,11 @@ function Home() {
       userButton!.style.display = "none";
     }
   }
-  useEffect(() => {
+
+  /*useEffect(() => {
     buttonRender(auth);
-  }, [loggedIn]);
+  }, [loggedIn]);*/
+
   async function imagConverter(e: any) {
     e.preventDefault();
     console.log("hi");
@@ -191,6 +193,31 @@ function Home() {
       //menuButton?.classList.add("open");
     }
   }
+
+  async function saveConversion(e: any) {
+    e.preventDefault();
+    try {
+      console.log(currentFile);
+      if (!loggedIn) {
+        //const imgFile = e.target.files[0];
+        const formData = new FormData();
+        formData.append("file", currentFile);
+        console.log(formData);
+        const url = "http://127.0.0.1:8000/imageconvert";
+        const response = await fetch(url, {
+          method: "POST",
+          mode: "cors",
+          body: formData,
+          credentials: "include",
+        });
+        let responseJson = await response.json();
+        console.log(responseJson);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   //below event listener closed the side navbar and resets menu button back to
   //normal after window resize
   window.addEventListener("resize", (e) => {
@@ -205,7 +232,9 @@ function Home() {
       setMenu(false);
     }
   });
-
+  useEffect(() => {
+    buttonRender(auth);
+  }, [loggedIn]);
   return (
     <div className="Home" onClick={closeSideBar}>
       <header className="navbar">
@@ -273,18 +302,16 @@ function Home() {
         </div>
       </section>
       <div className="save-data" id="save-data-id">
-        <div className="button-container">
-          <button
-            type="submit"
-            className="save-data-button"
-            onClick={imagConverter}
-          >
-            Save conversion
-          </button>
-          <button type="submit" className="new-upload-button">
-            New upload
-          </button>
-        </div>
+        <button
+          type="submit"
+          className="save-data-button"
+          onClick={saveConversion}
+        >
+          Save conversion
+        </button>
+        <button type="submit" className="new-upload-button">
+          New upload
+        </button>
       </div>
     </div>
   );
