@@ -1,0 +1,15 @@
+.Navbar-component {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-component-title {
+  margin-left: 5%;
+}
+
+.navbar-component-menu {
+  margin-right: 5%;
+}

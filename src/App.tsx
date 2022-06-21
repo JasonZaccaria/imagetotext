@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import User from "./components/User";
 import Hamburger from "./components/Hamburger";
+import Navbar from "./components/Navbar";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import ProtectedUser from "./components/ProtectedUser";
 import LoadingAnimation from "./components/LoadingAnimation";
@@ -17,7 +18,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/test" element={<LoadingAnimation />}></Route>
+          <Route path="/test" element={<Navbar />}></Route>
           <Route element={<ProtectedRoutes />}>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>

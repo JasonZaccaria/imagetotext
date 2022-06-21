@@ -7,19 +7,24 @@ import {
   Route,
   Link,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import { NONAME } from "dns";
 import Hamburger from "./Hamburger";
 import SlidingNavbar from "./SlidingNavbar";
 import LoadingAnimation from "./LoadingAnimation";
+import { findByLabelText } from "@testing-library/react";
 
 function Home() {
   //below we have our state for saving our user's log in status, when our menu
   //is open, as well as if our sidepanel is open
-  let [testVar, setTestVar] = useState();
+  //let [testVar, setTestVar] = useState();
+  const navigate = useNavigate();
   let [loggedIn, setLoggedIn] = useState(false);
   let [menu, setMenu] = useState(false);
   let [currentFile, setCurrentFile] = useState(new Blob());
+  let [currentString, setCurrentString] = useState("");
+  let [currentTitle, setCurrentTitle] = useState("");
   let sidePanel = useRef(false);
   let sidePanelCount = useRef(0);
   //below we grab the uploaded file and file name
@@ -59,7 +64,7 @@ function Home() {
     /*imageDropTitle!.style.display = "flex";
     fileUploadLabel!.style.display = "flex";*/
     convertedTextContainer!.style.display = "flex";
-    setTestVar(responseJson["success"]);
+    setCurrentString(responseJson["success"]);
     saveData!.style.display = "flex";
   }
 
@@ -193,17 +198,49 @@ function Home() {
       //menuButton?.classList.add("open");
     }
   }
+  //I'm thinking we need one more function here to open up the title box and then we enter all of it in at once.
+  async function openSaveConversion() {
+    //changes start here on 6/18/2022
+    if (!loggedIn) {
+      console.log("nopes");
+      navigate("/register");
+    }
+    //changes end here on 6/18/2022
+    const postTitle = document.getElementById("post-title-id");
+    postTitle!.style.display = "flex";
+  }
+
+  function closeSaveConversion() {
+    const postTitle = document.getElementById("post-title-id");
+    postTitle!.style.display = "none";
+  }
+
+  function test(): string {
+    const titleOfPost = (
+      document.getElementById("save-title-input-id") as HTMLInputElement
+    ).value;
+    //changes on 6/20 title is saving old state
+    return titleOfPost;
+    //setCurrentTitle(titleOfPost);
+  }
 
   async function saveConversion(e: any) {
     e.preventDefault();
     try {
       console.log(currentFile);
-      if (!loggedIn) {
-        //const imgFile = e.target.files[0];
+      if (loggedIn) {
+        let titleOfPost = test();
+        console.log(currentTitle);
+        console.log("QW");
         const formData = new FormData();
         formData.append("file", currentFile);
+        //changes start here for 6/17
+        formData.append("stringConversion", currentString);
+        //formData.append("title", currentTitle);
+        formData.append("title", titleOfPost);
+        //changes end here for 6/17
         console.log(formData);
-        const url = "http://127.0.0.1:8000/imageconvert";
+        const url = "http://127.0.0.1:8000/userdata";
         const response = await fetch(url, {
           method: "POST",
           mode: "cors",
@@ -213,6 +250,7 @@ function Home() {
         let responseJson = await response.json();
         console.log(responseJson);
       }
+      console.log("not logged in so no data was saved");
     } catch (error) {
       console.log(error);
     }
@@ -281,7 +319,7 @@ function Home() {
             className="converted-text-container"
             id="converted-text-container-id"
           >
-            <div className="converted-text">{testVar}</div>
+            <div className="converted-text">{currentString}</div>
           </div>
           <h2 className="image-drop-title" id="image-drop-title-id">
             Drop image here!
@@ -305,13 +343,39 @@ function Home() {
         <button
           type="submit"
           className="save-data-button"
-          onClick={saveConversion}
+          onClick={openSaveConversion}
         >
           Save conversion
         </button>
         <button type="submit" className="new-upload-button">
           New upload
         </button>
+      </div>
+      <div className="post-title" id="post-title-id">
+        <h3 className="post-title-label">Save converted text and image</h3>
+        <input
+          type="text"
+          id="save-title-input-id"
+          className="save-title-input"
+          name="save-title-input"
+          placeholder="Title"
+        ></input>
+        <div className="save-title-button-container">
+          <button
+            type="submit"
+            className="save-title-button"
+            onClick={saveConversion}
+          >
+            Save
+          </button>
+          <button
+            type="submit"
+            className="cancel-title-button"
+            onClick={closeSaveConversion}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );

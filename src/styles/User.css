@@ -1,0 +1,21 @@
+.User {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+}
+
+.navbar-user {
+  grid-column-start: 1;
+  grid-column-end: 13;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+.sliding-navbar-user {
+  grid-row-start: 1;
+  grid-row-end: 13;
+  grid-column-start: 1;
+  grid-column-end: 13;
+}
