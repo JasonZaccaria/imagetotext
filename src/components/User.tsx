@@ -37,12 +37,15 @@ function User() {
       },
       credentials: "include",
     });
-    const readResponse = await response.blob();
+    //const readResponse = await response.blob();
+    const readResponse = await response.json();
     let myImage = document.querySelector("img");
-    let objectUrl = URL.createObjectURL(readResponse);
-    myImage!.src = objectUrl;
     console.log(readResponse);
-    console.log(objectUrl);
+    myImage!.src = `data:image/png;base64,${readResponse["image"][0]}`;
+
+    for (let i = 0; i < readResponse["image"].length; i++) {
+      console.log("hi");
+    }
   }
   getUserData();
 
@@ -54,8 +57,9 @@ function User() {
       <div className="sliding-navbar-user">
         <SlidingNavbar />
       </div>
-      <section className="user-data-section"></section>
-      <img id="img"></img>
+      <section className="user-data-section">
+        <img id="img"></img>
+      </section>
     </div>
   );
 }
