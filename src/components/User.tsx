@@ -38,13 +38,28 @@ function User() {
       credentials: "include",
     });
     //const readResponse = await response.blob();
-    const readResponse = await response.json();
+    /*const readResponse = await response.json();
     let myImage = document.querySelector("img");
     console.log(readResponse);
     myImage!.src = `data:image/png;base64,${readResponse["image"][0]}`;
 
     for (let i = 0; i < readResponse["image"].length; i++) {
       console.log("hi");
+    }*/
+    //above can be uncommented
+    //changes start below
+    const readResponse = await response.json();
+    const imageSection = document.getElementById("user-data-section-id");
+    for (let i = 0; i < readResponse["image"].length; i++) {
+      let NewUserPost: HTMLDivElement = document.createElement("div");
+      let newTitle: HTMLParagraphElement = document.createElement("p");
+      let newText: HTMLParagraphElement = document.createElement("p");
+      let newImg: HTMLImageElement = document.createElement("img");
+      let newDate: HTMLParagraphElement = document.createElement("p");
+      let base64Img: string = readResponse["image"][i][1];
+      let mimeType: string = readResponse["image"][i][0];
+      newImg!.src = `data:${mimeType};base64,${base64Img}`;
+      imageSection?.appendChild(newImg);
     }
   }
   getUserData();
@@ -57,7 +72,7 @@ function User() {
       <div className="sliding-navbar-user">
         <SlidingNavbar />
       </div>
-      <section className="user-data-section">
+      <section className="user-data-section" id="user-data-section-id">
         <img id="img"></img>
       </section>
     </div>
