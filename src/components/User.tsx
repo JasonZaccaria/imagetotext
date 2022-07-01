@@ -9,6 +9,8 @@ import { FileWatcherEventKind } from "typescript";
 function User() {
   //must set menu state to pass into navbar component
   let [menu, setMenu] = useState(false);
+  let [updateOnce, setUpdateOnce] = useState();
+  //let menu = useRef(false);
 
   function navbarClose(e: any) {
     console.log("clicking here");
@@ -51,18 +53,52 @@ function User() {
     const readResponse = await response.json();
     const imageSection = document.getElementById("user-data-section-id");
     for (let i = 0; i < readResponse["image"].length; i++) {
-      let NewUserPost: HTMLDivElement = document.createElement("div");
+      let newUserPost: HTMLDivElement = document.createElement("div");
+      newUserPost.classList.add("newUserPost");
+      let newUserPostContent: HTMLDivElement = document.createElement("div");
+      newUserPostContent.classList.add("newUserPostContent");
+      let newUserPostText: HTMLDivElement = document.createElement("div");
+      newUserPostText.classList.add("newUserPostText");
+      let newUserPostTop: HTMLDivElement = document.createElement("div");
+      newUserPostTop.classList.add("newUserPostTop");
       let newTitle: HTMLParagraphElement = document.createElement("p");
+      newTitle.classList.add("newTitle");
       let newText: HTMLParagraphElement = document.createElement("p");
+      newText.classList.add("newText");
       let newImg: HTMLImageElement = document.createElement("img");
+      newImg.classList.add("newImg");
+      let newImgContainer: HTMLDivElement = document.createElement("div");
+      newImgContainer.classList.add("newImgContainer");
       let newDate: HTMLParagraphElement = document.createElement("p");
-      let base64Img: string = readResponse["image"][i][1];
-      let mimeType: string = readResponse["image"][i][0];
+      newDate.classList.add("newDate");
+      newTitle.innerHTML = readResponse["image"][i][0];
+      //newDate.innerHTML = readResponse["image"][i][3];
+      /*testing here for date rearranging*/
+      let tempDate: Date = new Date(readResponse["image"][i][3]);
+      let dateYear = tempDate.getFullYear();
+      let dateMonth = tempDate.getMonth();
+      let dateDay = tempDate.getDay();
+      let DateConversion: string = `${dateMonth}/${dateDay}/${dateYear}`;
+      newDate.innerText = DateConversion;
+      newText.innerText = readResponse["image"][i][1];
+      let base64Img: string = readResponse["image"][i][2];
+      let mimeType: string = readResponse["image"][i][4];
       newImg!.src = `data:${mimeType};base64,${base64Img}`;
-      imageSection?.appendChild(newImg);
+      imageSection?.appendChild(newUserPost);
+      newUserPost.appendChild(newImgContainer);
+      newImgContainer.appendChild(newImg);
+      newUserPost.appendChild(newUserPostContent);
+      newUserPostContent.appendChild(newUserPostTop);
+      newUserPostContent.appendChild(newText);
+      newUserPostTop.appendChild(newTitle);
+      newUserPostTop.appendChild(newDate);
+      //now we will set id's onto each element so we can style them
     }
   }
-  getUserData();
+  //getUserData();
+  useEffect(() => {
+    getUserData();
+  }, [updateOnce]);
 
   return (
     <div className="User" onClick={navbarClose}>

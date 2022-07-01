@@ -6,20 +6,19 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { NONAME } from "dns";
 
 function Hamburger(props: any) {
-  let [menu, setMenu] = useState(props.menu);
+  //let [menu, setMenu] = useState(props.menu);
+  let menu = props.menu;
+  let setMenu = props.setMenu;
   let navbar = document.getElementById("navbarId");
-  //let menu = false;
   console.log(menu);
   function hamburgerAction() {
     const hamburgerButton = document.getElementById("menu-btn-id");
     if (!menu || navbar?.style.width != "50%") {
       hamburgerButton?.classList.add("open");
-      //menu = true;
       setMenu(true);
       console.log(menu);
     } else {
       hamburgerButton?.classList.remove("open");
-      //menu = false;
       setMenu(false);
       console.log(menu);
     }

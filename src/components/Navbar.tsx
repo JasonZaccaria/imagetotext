@@ -31,7 +31,7 @@ function Navbar(props: any) {
     <div className="Navbar-component">
       <h1 className="navbar-component-title">Image To Text</h1>
       <div className="navbar-component-menu" onClick={navbarOpen}>
-        <Hamburger menu={menu} />
+        <Hamburger menu={menu} setMenu={setMenu} />
       </div>
     </div>
   );
