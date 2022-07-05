@@ -12,7 +12,6 @@ function SlidingNavbar() {
             Register
           </Link>
         </div>
-
         <div className="redirect" id="login-redirect-id">
           <Link to="/login" className="redirect">
             Login
@@ -26,6 +25,11 @@ function SlidingNavbar() {
         <div className="redirect" id="user-redirect-id">
           <Link to="/user" className="redirect">
             User
+          </Link>
+        </div>
+        <div className="redirect" id="home-redirect-id">
+          <Link to="/" className="redirect">
+            Home
           </Link>
         </div>
       </div>

@@ -6,13 +6,25 @@ import Hamburger from "./Hamburger";
 import Navbar from "./Navbar";
 import SlidingNavbar from "./SlidingNavbar";
 import { FileWatcherEventKind } from "typescript";
-function User() {
+function User(props: any) {
   //must set menu state to pass into navbar component
   let [menu, setMenu] = useState(false);
   let [updateOnce, setUpdateOnce] = useState();
+  //let [loggedIn, setLoggedIn] = useState(false);
   //let menu = useRef(false);
 
-  function navbarClose(e: any) {
+  async function logouter() {
+    const response = await fetch("http://127.0.0.1:8000/logout", {
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+  }
+
+  function navbarClose(e: any): void {
     console.log("clicking here");
     console.log(menu);
     const slidingNav = document.getElementById("navbarId");
@@ -27,6 +39,17 @@ function User() {
       const hamburgerButton = document.getElementById("menu-btn-id");
       hamburgerButton?.classList.remove("open");
     }
+  }
+
+  function slidingNavbarStyling(): void {
+    const register = document.getElementById("register-redirect-id");
+    const login = document.getElementById("login-redirect-id");
+    const logout = document.getElementById("logout-redirect-id");
+    const user = document.getElementById("user-redirect-id");
+    const home = document.getElementById("home-redirect-id");
+    register!.style.display = "none";
+    login!.style.display = "none";
+    user!.style.display = "none";
   }
 
   async function getUserData() {
@@ -55,6 +78,7 @@ function User() {
     for (let i = 0; i < readResponse["image"].length; i++) {
       let newUserPost: HTMLDivElement = document.createElement("div");
       newUserPost.classList.add("newUserPost");
+      newUserPost.id = `newUserPostId${i}`; //new addition for delete button
       let newUserPostContent: HTMLDivElement = document.createElement("div");
       newUserPostContent.classList.add("newUserPostContent");
       let newUserPostText: HTMLDivElement = document.createElement("div");
@@ -92,17 +116,57 @@ function User() {
       newUserPostContent.appendChild(newText);
       newUserPostTop.appendChild(newTitle);
       newUserPostTop.appendChild(newDate);
-      //now we will set id's onto each element so we can style them
+      //now we will add a delete button feature
+      let deletePost = document.createElement("div");
+      deletePost.classList.add("deletePost");
+      newUserPostContent.appendChild(deletePost);
+      let deleteSymbol = document.createElement("div");
+      deleteSymbol.classList.add("deleteSymbol");
+      deletePost.appendChild(deleteSymbol);
+      deleteSymbol.addEventListener("click", () => {
+        console.log("delete button has been activated");
+        deleteSymbol.style.display = "none";
+        let confirmText = document.createElement("p");
+        let confirmYes = document.createElement("div");
+        let confirmNo = document.createElement("div");
+        confirmText.innerText = "Are you sure?";
+        confirmText.classList.add("confirmText");
+        confirmYes.classList.add("confirmYes");
+        confirmNo.classList.add("confirmNo");
+        deletePost.appendChild(confirmText);
+        deletePost.appendChild(confirmYes);
+        deletePost.appendChild(confirmNo);
+        confirmYes.addEventListener("click", async () => {
+          let firstParent = confirmYes.parentElement;
+          let secondParent = firstParent?.parentElement;
+          let firstChildOfSecondParent = secondParent?.firstChild;
+          let titleFound = firstChildOfSecondParent?.firstChild;
+          let titleText = titleFound?.textContent;
+          const url = "http://127.0.0.1:8000/deletePost";
+          const response = await fetch(url, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ titleOfPost: titleText }),
+            credentials: "include",
+          });
+          console.log(response.json());
+        });
+      });
     }
   }
   //getUserData();
   useEffect(() => {
     getUserData();
+    slidingNavbarStyling();
   }, [updateOnce]);
 
   return (
     <div className="User" onClick={navbarClose}>
-      <div className="navbar-user">
+      <div className="navbar-user" onClick={logouter}>
         <Navbar menu={menu} setMenu={setMenu} />
       </div>
       <div className="sliding-navbar-user">
