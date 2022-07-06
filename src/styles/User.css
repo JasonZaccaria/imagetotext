@@ -45,6 +45,7 @@
   margin: 10px;
   border-radius: 10px;
   background-color: rgb(190, 177, 228);
+  transition: all 0.5s ease-out;
 }
 
 .newImgContainer {
@@ -83,6 +84,8 @@
   border-top-right-radius: 10px;
   background-color: rgb(190, 177, 228);
   border-bottom: solid 1px black;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .newTitle {
@@ -113,7 +116,7 @@
   /*background-color: red;*/
   text-align: center;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 }
 
@@ -141,14 +144,85 @@
 }
 
 .confirmYes {
-  background-color: gray;
+  /*background-color: gray;*/
   width: 20%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .confirmNo {
-  background-color: black;
+  /*background-color: black;*/
   width: 20%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.yesCheck {
+  width: 10%;
+  height: 100%;
+  /*background-color: beige;*/
+  /*transform: rotate(45deg) translateX(5px) translateY(-5px);*/
+}
+
+.yesCheck::before {
+  content: "";
+  display: inline-block;
+  /*width: 100%;
+  height: 50%;*/
+  width: 0.3em;
+  height: 0.8em;
+  background-color: beige;
+  /*transform: rotate(-45deg) translateX(-20px) translateY(5px);*/
+  transform: rotate(-45deg) translateX(-340%) translateY(45%);
+  margin: 0;
+}
+
+.yesCheck::after {
+  content: "";
+  display: inline-block;
+  /*width: 100%;
+  height: 100%;*/
+  width: 0.3em;
+  height: 2em;
+  background-color: beige;
+  /*transform: rotate(45deg) translateX(-10px) translateY(-20px);*/
+  transform: rotate(45deg) translateX(-100%) translateY(-50%);
+  margin: 0;
+}
+
+.noCheck {
+  width: 10%;
+  height: 100%;
+}
+
+.noCheck::before {
+  content: "";
+  display: inline-block;
+  background-color: gray;
+  opacity: 0.9;
+  width: 0.3em;
+  height: 2em;
+  transform: rotate(-45deg) translateY(5px) translateX(-5px);
+}
+
+.noCheck::after {
+  content: "";
+  display: inline-block;
+  background-color: gray;
+  opacity: 0.9;
+  width: 0.3em;
+  height: 2em;
+  transform: rotate(45deg) translateY(-20px) translateX(-21px);
+}
+
+.removePost {
+  transition: all 0.5s ease-in-out;
+  width: 0px;
+  height: 0px;
+  border-radius: 0px;
 }
 
 @media screen and (max-width: 500px) {

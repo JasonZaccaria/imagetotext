@@ -136,9 +136,18 @@ function User(props: any) {
         deletePost.appendChild(confirmText);
         deletePost.appendChild(confirmYes);
         deletePost.appendChild(confirmNo);
+        //now we are making the symbols for the confirm yes and no buttons
+        let yesCheck = document.createElement("div");
+        let noCheck = document.createElement("div");
+        yesCheck.classList.add("yesCheck");
+        noCheck.classList.add("noCheck");
+        confirmYes.appendChild(yesCheck);
+        confirmNo.appendChild(noCheck);
         confirmYes.addEventListener("click", async () => {
-          let firstParent = confirmYes.parentElement;
-          let secondParent = firstParent?.parentElement;
+          let firstParent = confirmYes.parentElement; //delete post
+          let secondParent = firstParent?.parentElement; //newuserpostcontent
+          let postContainer = secondParent?.parentElement; //newuserpost
+          let imageContainer = postContainer?.firstChild;
           let firstChildOfSecondParent = secondParent?.firstChild;
           let titleFound = firstChildOfSecondParent?.firstChild;
           let titleText = titleFound?.textContent;
@@ -154,6 +163,10 @@ function User(props: any) {
             credentials: "include",
           });
           console.log(response.json());
+          //now as part of the event listener we will delete the post from the screen after hte response has been retrived
+          postContainer!.classList.add("removePost");
+          postContainer!.classList.remove("newUserPost");
+          postContainer!.innerText = "";
         });
       });
     }
