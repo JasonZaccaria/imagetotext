@@ -270,17 +270,40 @@ function Home() {
       setMenu(false);
     }
   });
+
+  function reloadPage() {
+    window.location.reload();
+  }
+  //copying over from user page
+  function navbarClose(e: any): void {
+    console.log("clicking here");
+    console.log(menu);
+    const slidingNav = document.getElementById("navbarId");
+    let sizeOfNav = slidingNav!.clientWidth;
+    let currentMousePosition = e.pageX;
+    console.log(currentMousePosition);
+    console.log(sizeOfNav);
+    if (menu && currentMousePosition > sizeOfNav) {
+      console.log("hasdfasfdasfda");
+      slidingNav!.style.width = "0";
+      setMenu(false);
+      const hamburgerButton = document.getElementById("menu-btn-id");
+      hamburgerButton?.classList.remove("open");
+    }
+  }
+
   useEffect(() => {
     buttonRender(auth);
   }, [loggedIn]);
+
   return (
-    <div className="Home" onClick={closeSideBar}>
+    <div className="Home" /*onClick={closeSideBar}*/ onClick={navbarClose}>
       <header className="navbar">
         <div className="page-title-container">
           <h1 className="page-title">Image To Text</h1>
         </div>
         <nav className="hamburger-styling" onClick={navbarOpen}>
-          <Hamburger menu={menu} />
+          <Hamburger menu={menu} setMenu={setMenu} />
         </nav>
         <nav className="links">
           <Link
@@ -347,7 +370,11 @@ function Home() {
         >
           Save conversion
         </button>
-        <button type="submit" className="new-upload-button">
+        <button
+          type="submit"
+          className="new-upload-button"
+          onClick={reloadPage}
+        >
           New upload
         </button>
       </div>

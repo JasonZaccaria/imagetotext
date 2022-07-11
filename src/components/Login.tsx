@@ -4,8 +4,20 @@ import "../styles/Login.css";
 import { isConstructorDeclaration } from "typescript";
 import Hamburger from "./Hamburger";
 import SlidingNavbar from "./SlidingNavbar";
+import Navbar from "./Navbar";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 function Login() {
+  //state for menu button and navbar
+  let [menu, setMenu] = useState(false);
+
   //func below checks for position of click to close our nav menu when open
   //document.addEventListener("click", (e) => {
   //const navBarSize = document.getElementById("navbarId");
@@ -42,20 +54,84 @@ function Login() {
     console.log(content);
   }
 
-  //here is our function to open the sliding nav menu
-  function navbarOpen() {
-    const navbar = document.getElementById("navbarId");
-    navbar!.style.width = "50%";
+  //here are the links we show for our navbar on this page
+  function slidingNavbarStyling(): void {
+    const register = document.getElementById("register-redirect-id");
+    const login = document.getElementById("login-redirect-id");
+    const logout = document.getElementById("logout-redirect-id");
+    const user = document.getElementById("user-redirect-id");
+    const home = document.getElementById("home-redirect-id");
+    //register!.style.display = "none";
+    login!.style.display = "none";
+    //user!.style.display = "none";
   }
+
+  //here is our function for closing our navbar
+  function navbarClose(e: any): void {
+    console.log("clicking here");
+    console.log(menu);
+    const slidingNav = document.getElementById("navbarId");
+    let sizeOfNav = slidingNav!.clientWidth;
+    let currentMousePosition = e.pageX;
+    console.log(currentMousePosition);
+    console.log(sizeOfNav);
+    if (menu && currentMousePosition > sizeOfNav) {
+      console.log("hasdfasfdasfda");
+      slidingNav!.style.width = "0";
+      setMenu(false);
+      const hamburgerButton = document.getElementById("menu-btn-id");
+      hamburgerButton?.classList.remove("open");
+    }
+  }
+
+  window.addEventListener("resize", (e) => {
+    console.log("hello change");
+    const navbar = document.getElementById("navbarId");
+    const menuButton = document.getElementById("menu-btn-id");
+
+    if (window.innerWidth > 1023) {
+      navbar!.style.width = "0%";
+      //sidePanelCount.current = 0;
+      menuButton?.classList.remove("open");
+      setMenu(false);
+    }
+  });
+
+  /*window.addEventListener("resize", (e) => {
+    if (window.innerWidth > 768) {
+
+    }
+  })*/
+  useEffect(() => {
+    slidingNavbarStyling();
+  }, []);
   return (
-    <div className="Login">
-      <nav className="navbar-top">
-        <h1 className="login-title">Image To Text</h1>
-        <div className="hamburger-container" onClick={navbarOpen}>
-          <Hamburger />
+    <div className="Login" onClick={navbarClose}>
+      <section className="login-navbar-section">
+        <Navbar menu={menu} setMenu={setMenu} />
+        <SlidingNavbar />
+      </section>
+      <nav className="login-navbar-container">
+        <h1 className="login-navbar-title">Image To Text</h1>
+        <div className="login-navbar-links">
+          <Link
+            to="/"
+            className="login-link-styling"
+            id="register-login-link-l"
+          >
+            Register
+          </Link>
+          <Link to="/" className="login-link-styling" id="logout-login-link-l">
+            Logout
+          </Link>
+          <Link to="/" className="login-link-styling" id="user-login-link-l">
+            User
+          </Link>
+          <Link to="/" className="login-link-styling" id="home-login-link-l">
+            Home
+          </Link>
         </div>
       </nav>
-      <SlidingNavbar />
       <div className="login-form-container">
         <div className="login-form-title">Login</div>
         <form

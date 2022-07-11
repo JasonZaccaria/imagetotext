@@ -171,7 +171,20 @@ function User(props: any) {
       });
     }
   }
-  //getUserData();
+  //added over from home page to close navbar if window size is changed too big
+  window.addEventListener("resize", (e) => {
+    console.log("hello change");
+    const navbar = document.getElementById("navbarId");
+    const menuButton = document.getElementById("menu-btn-id");
+
+    if (window.innerWidth > 1023) {
+      navbar!.style.width = "0%";
+      //sidePanelCount.current = 0;
+      menuButton?.classList.remove("open");
+      setMenu(false);
+    }
+  });
+
   useEffect(() => {
     getUserData();
     slidingNavbarStyling();
