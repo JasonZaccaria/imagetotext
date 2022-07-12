@@ -28,7 +28,7 @@ function ProtectedRoutes(children: any) {
   if (loggedIn) {
     return <Navigate to="/" replace />;
   } else {
-    return <Outlet />;
+    return <Outlet context={loggedIn} />;
   }
 }
 

@@ -306,26 +306,36 @@ function Home() {
           <Hamburger menu={menu} setMenu={setMenu} />
         </nav>
         <nav className="links">
-          <Link
+          <a
+            href="/register"
             className="register-link"
             id="register-button-id"
-            to="/register"
+            /*to="/register"*/
           >
             Register
-          </Link>
-          <Link className="login-link" id="login-button-id" to="/login">
+          </a>
+          <a
+            href="/login"
+            className="login-link"
+            id="login-button-id" /*to="/login"*/
+          >
             Login
-          </Link>
-          <Link className="logout-link" id="logout-button-id" to="/logout">
+          </a>
+          <a
+            href="/logout"
+            className="logout-link"
+            id="logout-button-id" /*to="/logout"*/
+          >
             Logout
-          </Link>
-          <Link
+          </a>
+          <a
+            href="/user"
             className="userprofile-link"
             id="user-button-id"
-            to="/userprofile"
+            /*to="/userprofile"*/
           >
             Posts
-          </Link>
+          </a>
         </nav>
       </header>
       <SlidingNavbar />

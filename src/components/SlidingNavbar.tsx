@@ -8,14 +8,14 @@ function SlidingNavbar() {
       <div className="nav-title">Menu</div>
       <div className="navbar-links">
         <div className="redirect" id="register-redirect-id">
-          <Link to="/register" className="redirect">
+          <a href="/register" /*to="/register"*/ className="redirect">
             Register
-          </Link>
+          </a>
         </div>
         <div className="redirect" id="login-redirect-id">
-          <Link to="/login" className="redirect">
+          <a href="/login" /*to="/login"*/ className="redirect">
             Login
-          </Link>
+          </a>
         </div>
         <div className="redirect" id="logout-redirect-id">
           <Link to="/logout" className="redirect">
@@ -23,14 +23,14 @@ function SlidingNavbar() {
           </Link>
         </div>
         <div className="redirect" id="user-redirect-id">
-          <Link to="/user" className="redirect">
+          <a href="/user" /*to="/user"*/ className="redirect">
             User
-          </Link>
+          </a>
         </div>
         <div className="redirect" id="home-redirect-id">
-          <Link to="/" className="redirect">
+          <a href="/" /*to="/"*/ className="redirect">
             Home
-          </Link>
+          </a>
         </div>
       </div>
     </div>

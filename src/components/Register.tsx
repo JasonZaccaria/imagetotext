@@ -11,11 +11,15 @@ import {
   Link,
   useLocation,
   useNavigate,
+  useOutletContext,
 } from "react-router-dom";
 
 function Register() {
   //state for menu button
   let [menu, setMenu] = useState(false);
+
+  //below is our passed in login context from protected routes
+  const loggedIn: boolean = useOutletContext();
 
   //function to post user data to register them
   async function post(e: any) {
@@ -48,9 +52,18 @@ function Register() {
     const logout = document.getElementById("logout-redirect-id");
     const user = document.getElementById("user-redirect-id");
     const home = document.getElementById("home-redirect-id");
-    register!.style.display = "none";
-    login!.style.display = "none";
-    user!.style.display = "none";
+    //register!.style.display = "none";
+    //login!.style.display = "none";
+    //user!.style.display = "none";
+
+    if (loggedIn) {
+      login!.style.display = "none";
+      register!.style.display = "none";
+    } else {
+      register!.style.display = "none";
+      logout!.style.display = "none";
+      user!.style.display = "none";
+    }
   }
 
   function navbarClose(e: any): void {
@@ -70,6 +83,57 @@ function Register() {
     }
   }
 
+  //this function will be called on resizing to adjust the links we see when user is logged in or not
+  window.addEventListener("resize", (e) => {
+    if (window.innerWidth > 768) {
+      const loginLink = document.getElementById("login-register-link-1");
+      const logoutLink = document.getElementById("logout-register-link-2");
+      const userLink = document.getElementById("user-register-link-3");
+      const homeLink = document.getElementById("home-register-link-4");
+
+      if (loggedIn) {
+        loginLink!.style.display = "none";
+      } else {
+        logoutLink!.style.display = "none";
+        userLink!.style.display = "none";
+      }
+    }
+  });
+
+  window.addEventListener("load", (e) => {
+    console.log("im loaded up");
+    if (window.innerWidth > 768) {
+      const loginLink = document.getElementById("login-register-link-1");
+      const logoutLink = document.getElementById("logout-register-link-2");
+      const userLink = document.getElementById("user-register-link-3");
+      const homeLink = document.getElementById("home-register-link-4");
+
+      if (loggedIn) {
+        loginLink!.style.display = "none";
+      } else {
+        logoutLink!.style.display = "none";
+        userLink!.style.display = "none";
+      }
+    }
+  });
+
+  function LoginBiggerScreenLinks(): void {
+    console.log("register testing if function works");
+    if (window.innerWidth > 768) {
+      const loginLink = document.getElementById("login-register-link-1");
+      const logoutLink = document.getElementById("logout-register-link-2");
+      const userLink = document.getElementById("user-register-link-3");
+      const homeLink = document.getElementById("home-register-link-4");
+
+      if (loggedIn) {
+        loginLink!.style.display = "none";
+      } else {
+        logoutLink!.style.display = "none";
+        userLink!.style.display = "none";
+      }
+    }
+  }
+
   window.addEventListener("resize", (e) => {
     console.log("hello change");
     const navbar = document.getElementById("navbarId");
@@ -83,6 +147,11 @@ function Register() {
     }
   });
 
+  useEffect(() => {
+    slidingNavbarStyling();
+    //LoginBiggerScreenLinks();
+  });
+
   return (
     <div className="Register" onClick={navbarClose}>
       <section className="register-navbar-section">
@@ -94,34 +163,38 @@ function Register() {
       <nav className="register-navbar-link-container">
         <h1 className="register-navbar-title">Image To Text</h1>
         <div className="register-navbar-links">
-          <Link
-            to="/"
+          <a
+            href="/login"
+            /*to="/login"*/
             className="register-link-styling"
-            id="register-login-link-l"
+            id="login-register-link-l"
           >
-            Register
-          </Link>
-          <Link
-            to="/"
+            Login
+          </a>
+          <a
+            href="/"
+            /*to="/"*/
             className="register-link-styling"
-            id="logout-register-link-l"
+            id="logout-register-link-2"
           >
             Logout
-          </Link>
-          <Link
-            to="/"
+          </a>
+          <a
+            href="user"
+            /*to="/user"*/
             className="register-link-styling"
-            id="user-register-link-l"
+            id="user-register-link-3"
           >
             User
-          </Link>
-          <Link
-            to="/"
+          </a>
+          <a
+            href="/"
+            /*to="/"*/
             className="register-link-styling"
-            id="home-register-link-l"
+            id="home-register-link-4"
           >
             Home
-          </Link>
+          </a>
         </div>
       </nav>
       <div className="form-container">

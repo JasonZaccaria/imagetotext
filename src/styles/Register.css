@@ -4,7 +4,9 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(12, 1fr);
-  background-image: linear-gradient(rgb(135, 28, 168), rgb(62, 34, 185));
+  /*background-image: linear-gradient(rgb(135, 28, 168), rgb(62, 34, 185));*/
+  background-image: url("../assets/Landscape-with-blue-and-purple-silhouettes-of-mountains-and-hills-18612.jpg");
+  background-size: 100% 100%;
 }
 
 .Navbar-component {
@@ -114,19 +116,28 @@
 }
 
 .submit-button {
+  text-decoration: none;
+  color: black;
+  background-color: rgb(141, 135, 252);
   width: 30%;
-  height: 30%;
-  border: none;
+  height: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 16px;
-  background-image: linear-gradient(
-    to left,
-    rgb(202, 17, 119),
-    rgb(36, 106, 187)
-  );
+  transition: all 0.2s ease-in-out;
+  border: none;
 }
 
 .submit-button:hover {
   cursor: pointer;
+  color: white;
+  transition: all 0.2s ease-in-out;
+  background-image: linear-gradient(
+    to left,
+    rgb(141, 135, 252),
+    rgb(97, 159, 253)
+  );
 }
 
 @media screen and (min-width: 769px) {
@@ -152,7 +163,7 @@
     font-size: 2em;
   }
   .register-navbar-links {
-    width: 40%;
+    width: 30%; /*changed from 40% on 7/11*/
     height: 100%;
     display: flex;
     justify-content: space-evenly;
@@ -163,7 +174,7 @@
     text-decoration: none;
     color: black;
     background-color: rgb(141, 135, 252);
-    width: 20%;
+    width: 30%; /*changed from 20% on 7/11*/
     height: 35%;
     display: flex;
     justify-content: center;

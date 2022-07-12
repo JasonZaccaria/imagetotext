@@ -12,21 +12,18 @@ import {
   Link,
   useLocation,
   useNavigate,
+  useOutletContext,
+  useOutlet,
 } from "react-router-dom";
 
 function Login() {
   //state for menu button and navbar
   let [menu, setMenu] = useState(false);
 
-  //func below checks for position of click to close our nav menu when open
-  //document.addEventListener("click", (e) => {
-  //const navBarSize = document.getElementById("navbarId");
-  //if (e.clientX > navBarSize!.clientWidth) {
-  //console.log("this should close");
-  //navBarSize!.style.width = "0%";
-  //}
-  //console.log(e.clientX);
-  //});
+  //below we will have our loggedIn context variable we are passed from our protected routes
+  //now we will use this logged in variable in our useeffect to adjust the links the user sees
+  const loggedIn: boolean = useOutletContext();
+  console.log(loggedIn);
 
   //function to post user data to register them
   async function post(e: any) {
@@ -61,9 +58,14 @@ function Login() {
     const logout = document.getElementById("logout-redirect-id");
     const user = document.getElementById("user-redirect-id");
     const home = document.getElementById("home-redirect-id");
-    //register!.style.display = "none";
-    login!.style.display = "none";
-    //user!.style.display = "none";
+
+    if (loggedIn) {
+      login!.style.display = "none";
+    } else {
+      login!.style.display = "none";
+      logout!.style.display = "none";
+      user!.style.display = "none";
+    }
   }
 
   //here is our function for closing our navbar
@@ -84,12 +86,65 @@ function Login() {
     }
   }
 
+  //this function will be called on resizing to adjust the links we see when user is logged in or not
+  window.addEventListener("load", (e) => {
+    console.log("heasdfdafsd");
+    if (window.innerWidth > 768) {
+      const registerLink = document.getElementById("register-login-link-1");
+      const logoutLink = document.getElementById("logout-login-link-2");
+      const userLink = document.getElementById("user-login-link-3");
+      const homeLink = document.getElementById("home-login-link-4");
+
+      if (loggedIn) {
+        registerLink!.style.display = "none";
+      } else {
+        logoutLink!.style.display = "none";
+        userLink!.style.display = "none";
+      }
+    }
+  });
+  window.addEventListener("resize", (e) => {
+    console.log("heasdfdafsd");
+    if (window.innerWidth > 768) {
+      const registerLink = document.getElementById("register-login-link-1");
+      const logoutLink = document.getElementById("logout-login-link-2");
+      const userLink = document.getElementById("user-login-link-3");
+      const homeLink = document.getElementById("home-login-link-4");
+
+      if (loggedIn) {
+        registerLink!.style.display = "none";
+      } else {
+        logoutLink!.style.display = "none";
+        userLink!.style.display = "none";
+      }
+    }
+  });
+  /*function LoginBiggerScreenLinks(): void {
+    console.log("testing to see if login fuction works");
+    if (window.innerWidth > 768) {
+      console.log("heasdfdafsd");
+      const registerLink = document.getElementById("register-login-link-1");
+      const logoutLink = document.getElementById("logout-login-link-2");
+      const userLink = document.getElementById("user-login-link-3");
+      const homeLink = document.getElementById("home-login-link-4");
+
+      if (loggedIn) {
+        registerLink!.style.display = "none";
+      } else {
+        logoutLink!.style.display = "none";
+        userLink!.style.display = "none";
+      }
+    }
+  }*/
+
+  //this event listener closes our navbar when the screen gets too big
   window.addEventListener("resize", (e) => {
     console.log("hello change");
     const navbar = document.getElementById("navbarId");
     const menuButton = document.getElementById("menu-btn-id");
-
+    //we resize as well as alter which links we saw on the top of the page based on if user is logged in or not
     if (window.innerWidth > 1023) {
+      //LoginBiggerScreenLinks();
       navbar!.style.width = "0%";
       //sidePanelCount.current = 0;
       menuButton?.classList.remove("open");
@@ -97,39 +152,49 @@ function Login() {
     }
   });
 
-  /*window.addEventListener("resize", (e) => {
-    if (window.innerWidth > 768) {
-
-    }
-  })*/
   useEffect(() => {
     slidingNavbarStyling();
+    //LoginBiggerScreenLinks();
   }, []);
   return (
     <div className="Login" onClick={navbarClose}>
       <section className="login-navbar-section">
         <Navbar menu={menu} setMenu={setMenu} />
-        <SlidingNavbar />
       </section>
+      <SlidingNavbar />
       <nav className="login-navbar-container">
         <h1 className="login-navbar-title">Image To Text</h1>
         <div className="login-navbar-links">
-          <Link
-            to="/"
+          <a
+            href="/register"
+            /*to="/register"*/
             className="login-link-styling"
             id="register-login-link-l"
           >
             Register
-          </Link>
-          <Link to="/" className="login-link-styling" id="logout-login-link-l">
+          </a>
+          <a
+            href="/"
+            /*to="/*/ className="login-link-styling"
+            id="logout-login-link-2"
+          >
             Logout
-          </Link>
-          <Link to="/" className="login-link-styling" id="user-login-link-l">
+          </a>
+          <a
+            href="/user"
+            /*to="/user"*/
+            className="login-link-styling"
+            id="user-login-link-3"
+          >
             User
-          </Link>
-          <Link to="/" className="login-link-styling" id="home-login-link-l">
+          </a>
+          <a
+            href="/"
+            /*to="/"*/ className="login-link-styling"
+            id="home-login-link-4"
+          >
             Home
-          </Link>
+          </a>
         </div>
       </nav>
       <div className="login-form-container">
