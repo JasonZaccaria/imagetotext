@@ -6,6 +6,7 @@ import Hamburger from "./Hamburger";
 import Navbar from "./Navbar";
 import SlidingNavbar from "./SlidingNavbar";
 import { FileWatcherEventKind } from "typescript";
+import LoadingAnimation from "./LoadingAnimation";
 function User(props: any) {
   //must set menu state to pass into navbar component
   let [menu, setMenu] = useState(false);
@@ -53,6 +54,19 @@ function User(props: any) {
   }
 
   async function getUserData() {
+    const loadingContainer = document.getElementById(
+      "loading-animation-container-id"
+    );
+    const loadingDotOne = document.getElementById("loading-dot-one-id");
+    const loadingDotTwo = document.getElementById("loading-dot-two-id");
+    const loadingDotThree = document.getElementById("loading-dot-three-id");
+    loadingContainer!.style.display = "flex";
+    loadingDotOne!.style.width = "10%";
+    loadingDotOne!.style.height = "10%";
+    loadingDotTwo!.style.width = "10%";
+    loadingDotTwo!.style.height = "10%";
+    loadingDotThree!.style.width = "10%";
+    loadingDotThree!.style.height = "10%";
     const url: string = "http://127.0.0.1:8000/data";
     const response = await fetch(url, {
       mode: "cors",
@@ -74,6 +88,8 @@ function User(props: any) {
     //above can be uncommented
     //changes start below
     const readResponse = await response.json();
+    /*now i will stop the animation by closing the animation display*/
+    loadingContainer!.style.display = "none";
     const imageSection = document.getElementById("user-data-section-id");
     for (let i = 0; i < readResponse["image"].length; i++) {
       let newUserPost: HTMLDivElement = document.createElement("div");
@@ -171,6 +187,9 @@ function User(props: any) {
       });
     }
   }
+
+  //below function shows links instead of hamburger button for larger screens
+
   //added over from home page to close navbar if window size is changed too big
   window.addEventListener("resize", (e) => {
     console.log("hello change");
@@ -184,7 +203,7 @@ function User(props: any) {
       setMenu(false);
     }
   });
-
+  /*changes on 7/11 to add onload animation*/
   useEffect(() => {
     getUserData();
     slidingNavbarStyling();
@@ -192,14 +211,31 @@ function User(props: any) {
 
   return (
     <div className="User" onClick={navbarClose}>
-      <div className="navbar-user" onClick={logouter}>
+      <div className="navbar-user" onClick={logouter} id="navbar-user-id">
         <Navbar menu={menu} setMenu={setMenu} />
+      </div>
+      <div className="navbar-large-device" id="navbar-large-device-id">
+        <h1 className="navbar-large-device-title">Image To Text</h1>
+        <div className="navbar-user-link-container">
+          <a href="/" className="user-links">
+            Logout
+          </a>
+          <a href="/" className="user-links">
+            Home
+          </a>
+        </div>
       </div>
       <div className="sliding-navbar-user">
         <SlidingNavbar />
       </div>
       <section className="user-data-section" id="user-data-section-id">
         <img id="img"></img>
+        <div
+          className="loading-animation-container"
+          id="loading-animation-container-id"
+        >
+          <LoadingAnimation />
+        </div>
       </section>
     </div>
   );

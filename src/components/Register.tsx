@@ -44,6 +44,17 @@ function Register() {
     });
     const content = await response.json();
     console.log(content);
+    /*changes here on 7/11 to add error outlines when failure response comes back*/
+    if (Object.keys(content)[0] === "failure") {
+      const emailInput = document.getElementById("emailId");
+      const passwordInput = document.getElementById("passwordId");
+      const incorrectEmail = document.getElementById("incorrect-email-id");
+      emailInput!.style.border = "solid 2px red";
+      emailInput!.style.borderRadius = "5px";
+      passwordInput!.style.border = "solid 2px red";
+      passwordInput!.style.borderRadius = "5px";
+      incorrectEmail!.style.display = "flex";
+    }
   }
 
   function slidingNavbarStyling(): void {
@@ -220,6 +231,9 @@ function Register() {
               placeholder="Password"
             ></input>
           </div>
+          <p className="incorrect-email" id="incorrect-email-id">
+            Email already in system!
+          </p>
           <div className="submit-container">
             <button type="submit" onClick={post} className="submit-button">
               Submit

@@ -109,9 +109,13 @@
   border-bottom: solid 2px lightgray;
 }
 
-.forgot-password:hover {
-  cursor: pointer;
+.forgot-password {
+  display: none;
 }
+
+/*.forgot-password:hover {
+  cursor: pointer;
+}*/
 
 .login-submit-container {
   width: 100%;
@@ -144,6 +148,13 @@
     rgb(141, 135, 252),
     rgb(97, 159, 253)
   );
+}
+
+.errorAlert {
+  position: fixed;
+  width: 90%;
+  height: 1000px;
+  background-color: rgb(238, 131, 81);
 }
 
 @media screen and (min-width: 769px) {

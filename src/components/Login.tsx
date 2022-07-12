@@ -49,6 +49,20 @@ function Login() {
     });
     const content = await response.json();
     console.log(content);
+    /*new changes here 7/11*/
+    if (Object.keys(content)[0] === "accessToken") {
+      window.location.replace("/user");
+    } else {
+      const emailInput = document.getElementById("loginEmailId");
+      const passwordInput = document.getElementById("loginPasswordId");
+      const forgotPassword = document.getElementById("forgot-password-id");
+      emailInput!.style.border = "solid 2px red";
+      emailInput!.style.borderRadius = "5px";
+      passwordInput!.style.border = "solid 2px red";
+      passwordInput!.style.borderRadius = "5px";
+      forgotPassword!.style.display = "flex";
+      console.log("not workign as intended");
+    }
   }
 
   //here are the links we show for our navbar on this page
@@ -220,7 +234,9 @@ function Login() {
               placeholder="Password"
             ></input>
           </div>
-          <div className="forgot-password">Forgot password? click here!</div>
+          <div className="forgot-password" id="forgot-password-id">
+            Invalid email or password!
+          </div>
           <div className="login-submit-container">
             <button
               type="submit"

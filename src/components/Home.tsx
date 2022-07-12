@@ -203,11 +203,13 @@ function Home() {
     //changes start here on 6/18/2022
     if (!loggedIn) {
       console.log("nopes");
-      navigate("/register");
+      /*navigate("/register");*/
+      window.location.replace("/register");
+    } else {
+      //changes end here on 6/18/2022
+      const postTitle = document.getElementById("post-title-id");
+      postTitle!.style.display = "flex";
     }
-    //changes end here on 6/18/2022
-    const postTitle = document.getElementById("post-title-id");
-    postTitle!.style.display = "flex";
   }
 
   function closeSaveConversion() {
