@@ -15,6 +15,7 @@ import {
   useOutletContext,
   useOutlet,
 } from "react-router-dom";
+import logouter from "./Logouter";
 
 function Login() {
   //state for menu button and navbar
@@ -28,6 +29,10 @@ function Login() {
   //function to post user data to register them
   async function post(e: any) {
     e.preventDefault();
+    const submitButton: HTMLButtonElement | null = document.getElementById(
+      "login-submit-button-id"
+    ) as HTMLButtonElement | null;
+    submitButton!.disabled = true;
     const email = (document.getElementById("loginEmailId") as HTMLInputElement)
       .value;
     const password = (
@@ -63,6 +68,7 @@ function Login() {
       forgotPassword!.style.display = "flex";
       console.log("not workign as intended");
     }
+    submitButton!.disabled = false;
   }
 
   //here are the links we show for our navbar on this page
@@ -191,6 +197,7 @@ function Login() {
             href="/"
             /*to="/*/ className="login-link-styling"
             id="logout-login-link-2"
+            onClick={logouter}
           >
             Logout
           </a>
@@ -242,6 +249,7 @@ function Login() {
               type="submit"
               onClick={post}
               className="login-submit-button"
+              id="login-submit-button-id"
             >
               Submit
             </button>

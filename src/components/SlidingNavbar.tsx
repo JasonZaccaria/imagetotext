@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logouter from "./Logouter";
 import "../styles/SlidingNavbar.css";
 
 function SlidingNavbar() {
@@ -18,9 +19,9 @@ function SlidingNavbar() {
           </a>
         </div>
         <div className="redirect" id="logout-redirect-id">
-          <Link to="/logout" className="redirect">
+          <a href="/" className="redirect" onClick={logouter}>
             Logout
-          </Link>
+          </a>
         </div>
         <div className="redirect" id="user-redirect-id">
           <a href="/user" /*to="/user"*/ className="redirect">

@@ -14,6 +14,7 @@ import Hamburger from "./Hamburger";
 import SlidingNavbar from "./SlidingNavbar";
 import LoadingAnimation from "./LoadingAnimation";
 import { findByLabelText } from "@testing-library/react";
+import logouter from "./Logouter";
 
 function Home() {
   //below we have our state for saving our user's log in status, when our menu
@@ -251,6 +252,8 @@ function Home() {
         });
         let responseJson = await response.json();
         console.log(responseJson);
+        let postTitle = document.getElementById("post-title-id");
+        postTitle!.style.display = "none";
       }
       console.log("not logged in so no data was saved");
     } catch (error) {
@@ -324,9 +327,10 @@ function Home() {
             Login
           </a>
           <a
-            href="/logout"
+            href="/"
             className="logout-link"
-            id="logout-button-id" /*to="/logout"*/
+            id="logout-button-id"
+            onClick={logouter}
           >
             Logout
           </a>
