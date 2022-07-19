@@ -38,7 +38,7 @@ function Login() {
     const password = (
       document.getElementById("loginPasswordId") as HTMLInputElement
     ).value;
-    const url = "http://127.0.0.1:8000/login";
+    const url = `${process.env.REACT_APP_SERVER}/login`;
     //console.log(email);
     //console.log(password);
     const data = { user: email, pass: password };
@@ -56,7 +56,7 @@ function Login() {
     console.log(content);
     /*new changes here 7/11*/
     if (Object.keys(content)[0] === "accessToken") {
-      window.location.replace("/user");
+      window.location.replace("/");
     } else {
       const emailInput = document.getElementById("loginEmailId");
       const passwordInput = document.getElementById("loginPasswordId");

@@ -28,7 +28,7 @@ function Register() {
       .value;
     const password = (document.getElementById("passwordId") as HTMLInputElement)
       .value;
-    const url = "http://127.0.0.1:8000/register";
+    const url = `${process.env.REACT_APP_SERVER}/register`;
     //console.log(email);
     //console.log(password);
     const data = { user: email, pass: password };

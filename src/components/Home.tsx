@@ -47,7 +47,7 @@ function Home() {
     formData.append("file", imgFile);
     console.log(formData);
     setCurrentFile(e.target.files[0]);
-    const url = "http://127.0.0.1:8000/imageconvert";
+    const url = `${process.env.REACT_APP_SERVER}/imageconvert`;
     const response = await fetch(url, {
       method: "POST",
       mode: "cors",
@@ -71,7 +71,7 @@ function Home() {
 
   //below we use a get request to autenticate user form server and update loggedIn state
   async function auth() {
-    const url = "http://127.0.0.1:8000/auth";
+    const url = `${process.env.REACT_APP_SERVER}/auth`;
     const response = await fetch(url, {
       method: "GET",
       mode: "cors",
@@ -126,7 +126,7 @@ function Home() {
   async function imagConverter(e: any) {
     e.preventDefault();
     console.log("hi");
-    const url = "http://127.0.0.1:8000/imageconvert";
+    const url = `${process.env.REACT_APP_SERVER}/imageconvert`;
     const response = await fetch(url, {
       mode: "cors",
       headers: {
@@ -209,13 +209,17 @@ function Home() {
     } else {
       //changes end here on 6/18/2022
       const postTitle = document.getElementById("post-title-id");
+      const postTitleContent = document.getElementById("post-title-content-id");
       postTitle!.style.display = "flex";
+      postTitleContent!.style.display = "flex";
     }
   }
 
   function closeSaveConversion() {
     const postTitle = document.getElementById("post-title-id");
+    const postTitleContent = document.getElementById("post-title-content-id");
     postTitle!.style.display = "none";
+    postTitleContent!.style.display = "none";
   }
 
   function test(): string {
@@ -243,7 +247,7 @@ function Home() {
         formData.append("title", titleOfPost);
         //changes end here for 6/17
         console.log(formData);
-        const url = "http://127.0.0.1:8000/userdata";
+        const url = `${process.env.REACT_APP_SERVER}/userdata`;
         const response = await fetch(url, {
           method: "POST",
           mode: "cors",
@@ -252,12 +256,33 @@ function Home() {
         });
         let responseJson = await response.json();
         console.log(responseJson);
-        let postTitle = document.getElementById("post-title-id");
-        postTitle!.style.display = "none";
+        if (Object.keys(responseJson)[0] === "failure") {
+          window.location.reload();
+        } else {
+          let postTitle = document.getElementById("post-title-id");
+          postTitle!.style.display = "none";
+          //now we add code to create a new button to replace save conversion over to view posts tab
+          const newUserButton = document.createElement("button");
+          const saveDataButton: HTMLElement | null = document.getElementById(
+            "save-data-button-first"
+          );
+          const saveDataDiv: HTMLElement | null =
+            document.getElementById("save-data-id");
+          saveDataButton!.style.display = "none";
+          document.getElementById("save-data-id");
+          saveDataDiv?.appendChild(newUserButton);
+          newUserButton.classList.add("newUserButton");
+          newUserButton.innerText = "Posts";
+          newUserButton.addEventListener("click", () => {
+            window.location.replace("/user");
+          });
+        }
       }
+
       console.log("not logged in so no data was saved");
     } catch (error) {
       console.log(error);
+      window.location.reload();
     }
   }
 
@@ -296,6 +321,21 @@ function Home() {
       hamburgerButton?.classList.remove("open");
     }
   }
+
+  //changes here for drop file
+  const dropFile = (e: any) => {
+    e.preventDefault();
+    console.log("files dropped");
+    //console.log(e.target.files[0]);
+    console.log(e.dataTransfer.items[0].getAsFile());
+  };
+
+  const dragoverHandler = (e: any) => {
+    e.preventDefault();
+    console.log("files dragged over");
+  };
+
+  //changes end here for drop file
 
   useEffect(() => {
     buttonRender(auth);
@@ -346,7 +386,11 @@ function Home() {
       </header>
       <SlidingNavbar />
       <h1 className="main-title">Turn any image into usable text below!</h1>
-      <section className="main-box">
+      <section
+        className="main-box"
+        onDrop={dropFile}
+        onDragOver={dragoverHandler}
+      >
         <div className="text-conversion-box">
           <div className="loading-container" id="loading-container-id">
             <h1>Loading</h1>
@@ -382,6 +426,7 @@ function Home() {
         <button
           type="submit"
           className="save-data-button"
+          id="save-data-button-first"
           onClick={openSaveConversion}
         >
           Save conversion
@@ -395,29 +440,32 @@ function Home() {
         </button>
       </div>
       <div className="post-title" id="post-title-id">
-        <h3 className="post-title-label">Save converted text and image</h3>
-        <input
-          type="text"
-          id="save-title-input-id"
-          className="save-title-input"
-          name="save-title-input"
-          placeholder="Title"
-        ></input>
-        <div className="save-title-button-container">
-          <button
-            type="submit"
-            className="save-title-button"
-            onClick={saveConversion}
-          >
-            Save
-          </button>
-          <button
-            type="submit"
-            className="cancel-title-button"
-            onClick={closeSaveConversion}
-          >
-            Cancel
-          </button>
+        <div className="post-title-content" id="post-title-content-id">
+          <h3 className="post-title-label">Save converted text and image</h3>
+          <input
+            type="text"
+            id="save-title-input-id"
+            className="save-title-input"
+            name="save-title-input"
+            placeholder="Title"
+          ></input>
+          <div className="save-title-button-container">
+            <button
+              type="submit"
+              className="save-title-button"
+              id="save-data-button-id"
+              onClick={saveConversion}
+            >
+              Save
+            </button>
+            <button
+              type="submit"
+              className="cancel-title-button"
+              onClick={closeSaveConversion}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -62,13 +62,15 @@ function User(props: any) {
     const loadingDotTwo = document.getElementById("loading-dot-two-id");
     const loadingDotThree = document.getElementById("loading-dot-three-id");
     loadingContainer!.style.display = "flex";
-    loadingDotOne!.style.width = "10%";
-    loadingDotOne!.style.height = "10%";
-    loadingDotTwo!.style.width = "10%";
-    loadingDotTwo!.style.height = "10%";
-    loadingDotThree!.style.width = "10%";
-    loadingDotThree!.style.height = "10%";
-    const url: string = "http://127.0.0.1:8000/data";
+    loadingContainer!.style.width = "50%";
+    loadingContainer!.style.height = "50%";
+    loadingDotOne!.style.width = "1.5em";
+    loadingDotOne!.style.height = "1.5em";
+    loadingDotTwo!.style.width = "1.5em";
+    loadingDotTwo!.style.height = "1.5em";
+    loadingDotThree!.style.width = "1.5em";
+    loadingDotThree!.style.height = "1.5em";
+    const url: string = `${process.env.REACT_APP_SERVER}/data`;
     const response = await fetch(url, {
       mode: "cors",
       headers: {
@@ -179,7 +181,7 @@ function User(props: any) {
           let firstChildOfSecondParent = secondParent?.firstChild;
           let titleFound = firstChildOfSecondParent?.firstChild;
           let titleText = titleFound?.textContent;
-          const url = "http://127.0.0.1:8000/deletePost";
+          const url = `${process.env.REACT_APP_SERVER}/deletePost`;
           const response = await fetch(url, {
             method: "POST",
             mode: "cors",

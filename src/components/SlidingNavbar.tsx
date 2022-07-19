@@ -25,7 +25,7 @@ function SlidingNavbar() {
         </div>
         <div className="redirect" id="user-redirect-id">
           <a href="/user" /*to="/user"*/ className="redirect">
-            User
+            Posts
           </a>
         </div>
         <div className="redirect" id="home-redirect-id">
