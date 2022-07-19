@@ -323,11 +323,50 @@ function Home() {
   }
 
   //changes here for drop file
-  const dropFile = (e: any) => {
+  const dropFile = async (e: any) => {
     e.preventDefault();
     console.log("files dropped");
     //console.log(e.target.files[0]);
     console.log(e.dataTransfer.items[0].getAsFile());
+    const droppedFile = e.dataTransfer.items[0].getAsFile();
+    //I can't access getFile due to it not workign properly so we will need to impliment it here!
+    const loadingScreen = document.getElementById("loading-container-id");
+    const imageDropTitle = document.getElementById("image-drop-title-id");
+    const fileUploadLabel = document.getElementById("file-upload-label-id");
+    const convertedTextContainer = document.getElementById(
+      "converted-text-container-id"
+    );
+    const saveData = document.getElementById("save-data-id");
+    loadingScreen!.style.display = "flex";
+    imageDropTitle!.style.display = "none";
+    fileUploadLabel!.style.display = "none";
+    console.log(typeof e);
+    const imgFile = droppedFile;
+    console.log(typeof imgFile);
+    const formData = new FormData();
+    formData.append("file", imgFile);
+    console.log(formData);
+    setCurrentFile(imgFile);
+    const url = `${process.env.REACT_APP_SERVER}/imageconvert`;
+    const response = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      body: formData,
+      /*headers: {
+        //Access: "application/json",
+        "Content-Type": "application/json",
+      },*/
+      credentials: "include",
+    });
+    const responseJson = await response.json();
+    console.log(responseJson);
+    //this code below happens after we get our response
+    loadingScreen!.style.display = "none";
+    /*imageDropTitle!.style.display = "flex";
+    fileUploadLabel!.style.display = "flex";*/
+    convertedTextContainer!.style.display = "flex";
+    setCurrentString(responseJson["success"]);
+    saveData!.style.display = "flex";
   };
 
   const dragoverHandler = (e: any) => {
