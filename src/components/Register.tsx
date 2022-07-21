@@ -22,17 +22,19 @@ function Register() {
   const loggedIn: boolean = useOutletContext();
 
   //function to post user data to register them
-  async function post(e: any) {
+  async function post(e: any): Promise<void> {
     e.preventDefault();
-    const email = (document.getElementById("emailId") as HTMLInputElement)
-      .value;
-    const password = (document.getElementById("passwordId") as HTMLInputElement)
-      .value;
-    const url = `${process.env.REACT_APP_SERVER}/register`;
+    const email: string = (
+      document.getElementById("emailId") as HTMLInputElement
+    ).value;
+    const password: string = (
+      document.getElementById("passwordId") as HTMLInputElement
+    ).value;
+    const url: string = `${process.env.REACT_APP_SERVER}/register`;
     //console.log(email);
     //console.log(password);
     const data = { user: email, pass: password };
-    const response = await fetch(url, {
+    const response: Response = await fetch(url, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -46,9 +48,11 @@ function Register() {
     console.log(content);
     /*changes here on 7/11 to add error outlines when failure response comes back*/
     if (Object.keys(content)[0] === "failure") {
-      const emailInput = document.getElementById("emailId");
-      const passwordInput = document.getElementById("passwordId");
-      const incorrectEmail = document.getElementById("incorrect-email-id");
+      const emailInput: HTMLElement | null = document.getElementById("emailId");
+      const passwordInput: HTMLElement | null =
+        document.getElementById("passwordId");
+      const incorrectEmail: HTMLElement | null =
+        document.getElementById("incorrect-email-id");
       emailInput!.style.border = "solid 2px red";
       emailInput!.style.borderRadius = "5px";
       passwordInput!.style.border = "solid 2px red";
@@ -58,11 +62,17 @@ function Register() {
   }
 
   function slidingNavbarStyling(): void {
-    const register = document.getElementById("register-redirect-id");
-    const login = document.getElementById("login-redirect-id");
-    const logout = document.getElementById("logout-redirect-id");
-    const user = document.getElementById("user-redirect-id");
-    const home = document.getElementById("home-redirect-id");
+    const register: HTMLElement | null = document.getElementById(
+      "register-redirect-id"
+    );
+    const login: HTMLElement | null =
+      document.getElementById("login-redirect-id");
+    const logout: HTMLElement | null =
+      document.getElementById("logout-redirect-id");
+    const user: HTMLElement | null =
+      document.getElementById("user-redirect-id");
+    const home: HTMLElement | null =
+      document.getElementById("home-redirect-id");
     //register!.style.display = "none";
     //login!.style.display = "none";
     //user!.style.display = "none";
@@ -80,16 +90,17 @@ function Register() {
   function navbarClose(e: any): void {
     console.log("clicking here");
     console.log(menu);
-    const slidingNav = document.getElementById("navbarId");
-    let sizeOfNav = slidingNav!.clientWidth;
-    let currentMousePosition = e.pageX;
+    const slidingNav: HTMLElement | null = document.getElementById("navbarId");
+    let sizeOfNav: number = slidingNav!.clientWidth;
+    let currentMousePosition: number = e.pageX;
     console.log(currentMousePosition);
     console.log(sizeOfNav);
     if (menu && currentMousePosition > sizeOfNav) {
       console.log("hasdfasfdasfda");
       slidingNav!.style.width = "0";
       setMenu(false);
-      const hamburgerButton = document.getElementById("menu-btn-id");
+      const hamburgerButton: HTMLElement | null =
+        document.getElementById("menu-btn-id");
       hamburgerButton?.classList.remove("open");
     }
   }
@@ -97,10 +108,18 @@ function Register() {
   //this function will be called on resizing to adjust the links we see when user is logged in or not
   window.addEventListener("resize", (e) => {
     if (window.innerWidth > 768) {
-      const loginLink = document.getElementById("login-register-link-1");
-      const logoutLink = document.getElementById("logout-register-link-2");
-      const userLink = document.getElementById("user-register-link-3");
-      const homeLink = document.getElementById("home-register-link-4");
+      const loginLink: HTMLElement | null = document.getElementById(
+        "login-register-link-1"
+      );
+      const logoutLink: HTMLElement | null = document.getElementById(
+        "logout-register-link-2"
+      );
+      const userLink: HTMLElement | null = document.getElementById(
+        "user-register-link-3"
+      );
+      const homeLink: HTMLElement | null = document.getElementById(
+        "home-register-link-4"
+      );
 
       if (loggedIn) {
         loginLink!.style.display = "none";
@@ -131,10 +150,18 @@ function Register() {
   function LoginBiggerScreenLinks(): void {
     console.log("register testing if function works");
     if (window.innerWidth > 768) {
-      const loginLink = document.getElementById("login-register-link-1");
-      const logoutLink = document.getElementById("logout-register-link-2");
-      const userLink = document.getElementById("user-register-link-3");
-      const homeLink = document.getElementById("home-register-link-4");
+      const loginLink: HTMLElement | null = document.getElementById(
+        "login-register-link-1"
+      );
+      const logoutLink: HTMLElement | null = document.getElementById(
+        "logout-register-link-2"
+      );
+      const userLink: HTMLElement | null = document.getElementById(
+        "user-register-link-3"
+      );
+      const homeLink: HTMLElement | null = document.getElementById(
+        "home-register-link-4"
+      );
 
       if (loggedIn) {
         loginLink!.style.display = "none";

@@ -9,11 +9,12 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
+import { authObject } from "../services/interfaces";
 
 function ProtectedRoutes(children: any) {
   let [loggedIn, setLoggedIn] = useState(false);
-  const getAuth = async () => {
-    const response = await Auth();
+  const getAuth = async (): Promise<void> => {
+    const response: authObject = await Auth();
     try {
       if (response["failure"]) {
         setLoggedIn(false);

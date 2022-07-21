@@ -2,10 +2,11 @@ import Auth from "./Auth";
 import React, { useState, useEffect, useRef } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import { render } from "@testing-library/react";
+import { authObject } from "../services/interfaces";
 function ProtectedUser(children: any) {
   let [loggedIn, setLoggedIn] = useState(true);
   const getAuth = async () => {
-    const response = await Auth();
+    const response: authObject = await Auth();
     try {
       if (response["failure"]) {
         setLoggedIn(false);

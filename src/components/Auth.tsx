@@ -1,7 +1,9 @@
+import type { authObject } from "../services/interfaces";
+
 //this function sends a get request to our server to assess wether user is authenticated or not
-async function Auth() {
-  const url = `${process.env.REACT_APP_SERVER}/auth`;
-  const response = await fetch(url, {
+async function Auth(): Promise<authObject> {
+  const url: string = `${process.env.REACT_APP_SERVER}/auth`;
+  const response: Response = await fetch(url, {
     method: "GET",
     mode: "cors",
     headers: {
@@ -10,7 +12,7 @@ async function Auth() {
     },
     credentials: "include",
   });
-  const responseJson = await response.json();
+  const responseJson: authObject = await response.json();
   return responseJson;
 }
 

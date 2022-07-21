@@ -27,22 +27,23 @@ function Login() {
   console.log(loggedIn);
 
   //function to post user data to register them
-  async function post(e: any) {
+  async function post(e: any): Promise<void> {
     e.preventDefault();
     const submitButton: HTMLButtonElement | null = document.getElementById(
       "login-submit-button-id"
     ) as HTMLButtonElement | null;
     submitButton!.disabled = true;
-    const email = (document.getElementById("loginEmailId") as HTMLInputElement)
-      .value;
-    const password = (
+    const email: string = (
+      document.getElementById("loginEmailId") as HTMLInputElement
+    ).value;
+    const password: string = (
       document.getElementById("loginPasswordId") as HTMLInputElement
     ).value;
-    const url = `${process.env.REACT_APP_SERVER}/login`;
+    const url: string = `${process.env.REACT_APP_SERVER}/login`;
     //console.log(email);
     //console.log(password);
     const data = { user: email, pass: password };
-    const response = await fetch(url, {
+    const response: Response = await fetch(url, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -58,9 +59,12 @@ function Login() {
     if (Object.keys(content)[0] === "accessToken") {
       window.location.replace("/");
     } else {
-      const emailInput = document.getElementById("loginEmailId");
-      const passwordInput = document.getElementById("loginPasswordId");
-      const forgotPassword = document.getElementById("forgot-password-id");
+      const emailInput: HTMLElement | null =
+        document.getElementById("loginEmailId");
+      const passwordInput: HTMLElement | null =
+        document.getElementById("loginPasswordId");
+      const forgotPassword: HTMLElement | null =
+        document.getElementById("forgot-password-id");
       emailInput!.style.border = "solid 2px red";
       emailInput!.style.borderRadius = "5px";
       passwordInput!.style.border = "solid 2px red";
@@ -73,11 +77,17 @@ function Login() {
 
   //here are the links we show for our navbar on this page
   function slidingNavbarStyling(): void {
-    const register = document.getElementById("register-redirect-id");
-    const login = document.getElementById("login-redirect-id");
-    const logout = document.getElementById("logout-redirect-id");
-    const user = document.getElementById("user-redirect-id");
-    const home = document.getElementById("home-redirect-id");
+    const register: HTMLElement | null = document.getElementById(
+      "register-redirect-id"
+    );
+    const login: HTMLElement | null =
+      document.getElementById("login-redirect-id");
+    const logout: HTMLElement | null =
+      document.getElementById("logout-redirect-id");
+    const user: HTMLElement | null =
+      document.getElementById("user-redirect-id");
+    const home: HTMLElement | null =
+      document.getElementById("home-redirect-id");
 
     if (loggedIn) {
       login!.style.display = "none";
@@ -92,16 +102,17 @@ function Login() {
   function navbarClose(e: any): void {
     console.log("clicking here");
     console.log(menu);
-    const slidingNav = document.getElementById("navbarId");
-    let sizeOfNav = slidingNav!.clientWidth;
-    let currentMousePosition = e.pageX;
+    const slidingNav: HTMLElement | null = document.getElementById("navbarId");
+    let sizeOfNav: number = slidingNav!.clientWidth;
+    let currentMousePosition: number = e.pageX;
     console.log(currentMousePosition);
     console.log(sizeOfNav);
     if (menu && currentMousePosition > sizeOfNav) {
       console.log("hasdfasfdasfda");
       slidingNav!.style.width = "0";
       setMenu(false);
-      const hamburgerButton = document.getElementById("menu-btn-id");
+      const hamburgerButton: HTMLElement | null =
+        document.getElementById("menu-btn-id");
       hamburgerButton?.classList.remove("open");
     }
   }
@@ -110,10 +121,16 @@ function Login() {
   window.addEventListener("load", (e) => {
     console.log("heasdfdafsd");
     if (window.innerWidth > 768) {
-      const registerLink = document.getElementById("register-login-link-1");
-      const logoutLink = document.getElementById("logout-login-link-2");
-      const userLink = document.getElementById("user-login-link-3");
-      const homeLink = document.getElementById("home-login-link-4");
+      const registerLink: HTMLElement | null = document.getElementById(
+        "register-login-link-1"
+      );
+      const logoutLink: HTMLElement | null = document.getElementById(
+        "logout-login-link-2"
+      );
+      const userLink: HTMLElement | null =
+        document.getElementById("user-login-link-3");
+      const homeLink: HTMLElement | null =
+        document.getElementById("home-login-link-4");
 
       if (loggedIn) {
         registerLink!.style.display = "none";
@@ -126,10 +143,16 @@ function Login() {
   window.addEventListener("resize", (e) => {
     console.log("heasdfdafsd");
     if (window.innerWidth > 768) {
-      const registerLink = document.getElementById("register-login-link-1");
-      const logoutLink = document.getElementById("logout-login-link-2");
-      const userLink = document.getElementById("user-login-link-3");
-      const homeLink = document.getElementById("home-login-link-4");
+      const registerLink: HTMLElement | null = document.getElementById(
+        "register-login-link-1"
+      );
+      const logoutLink: HTMLElement | null = document.getElementById(
+        "logout-login-link-2"
+      );
+      const userLink: HTMLElement | null =
+        document.getElementById("user-login-link-3");
+      const homeLink: HTMLElement | null =
+        document.getElementById("home-login-link-4");
 
       if (loggedIn) {
         registerLink!.style.display = "none";
@@ -139,29 +162,13 @@ function Login() {
       }
     }
   });
-  /*function LoginBiggerScreenLinks(): void {
-    console.log("testing to see if login fuction works");
-    if (window.innerWidth > 768) {
-      console.log("heasdfdafsd");
-      const registerLink = document.getElementById("register-login-link-1");
-      const logoutLink = document.getElementById("logout-login-link-2");
-      const userLink = document.getElementById("user-login-link-3");
-      const homeLink = document.getElementById("home-login-link-4");
-
-      if (loggedIn) {
-        registerLink!.style.display = "none";
-      } else {
-        logoutLink!.style.display = "none";
-        userLink!.style.display = "none";
-      }
-    }
-  }*/
 
   //this event listener closes our navbar when the screen gets too big
   window.addEventListener("resize", (e) => {
     console.log("hello change");
-    const navbar = document.getElementById("navbarId");
-    const menuButton = document.getElementById("menu-btn-id");
+    const navbar: HTMLElement | null = document.getElementById("navbarId");
+    const menuButton: HTMLElement | null =
+      document.getElementById("menu-btn-id");
     //we resize as well as alter which links we saw on the top of the page based on if user is logged in or not
     if (window.innerWidth > 1023) {
       //LoginBiggerScreenLinks();

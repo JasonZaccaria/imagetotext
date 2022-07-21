@@ -4,10 +4,10 @@ import Hamburger from "./Hamburger";
 
 function Navbar(props: any) {
   //this state keeps track fi the side panel is open or not
-  let menu = props.menu;
-  let setMenu = props.setMenu;
-  function navbarOpen() {
-    const slidingNav = document.getElementById("navbarId");
+  let menu: boolean = props.menu;
+  let setMenu: React.Dispatch<React.SetStateAction<boolean>> = props.setMenu;
+  function navbarOpen(): void {
+    const slidingNav: HTMLElement | null = document.getElementById("navbarId");
     if (!menu) {
       slidingNav!.style.width = "50%";
       setMenu(true);
@@ -17,12 +17,14 @@ function Navbar(props: any) {
     }
   }
 
-  function navbarClose() {
+  function navbarClose(): void {
     if (menu) {
-      const slidingNav = document.getElementById("navbarId");
+      const slidingNav: HTMLElement | null =
+        document.getElementById("navbarId");
       slidingNav!.style.width = "0";
       setMenu(false);
-      const hamburgerButton = document.getElementById("menu-btn-id");
+      const hamburgerButton: HTMLElement | null =
+        document.getElementById("menu-btn-id");
       hamburgerButton?.classList.remove("open");
     }
   }

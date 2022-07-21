@@ -15,64 +15,78 @@ import SlidingNavbar from "./SlidingNavbar";
 import LoadingAnimation from "./LoadingAnimation";
 import { findByLabelText } from "@testing-library/react";
 import logouter from "./Logouter";
+import { authObject } from "../services/interfaces";
 
 function Home() {
-  //below we have our state for saving our user's log in status, when our menu
-  //is open, as well as if our sidepanel is open
-  //let [testVar, setTestVar] = useState();
-  const navigate = useNavigate();
+  /*below we have our states for managing logged in, menu, curretfiles, and refs
+  for our sidepanel*/
+  //const navigate = useNavigate(); //just removed this i hope it does not break
   let [loggedIn, setLoggedIn] = useState(false);
   let [menu, setMenu] = useState(false);
   let [currentFile, setCurrentFile] = useState(new Blob());
   let [currentString, setCurrentString] = useState("");
   let [currentTitle, setCurrentTitle] = useState("");
-  let sidePanel = useRef(false);
-  let sidePanelCount = useRef(0);
-  //below we grab the uploaded file and file name
-  async function getFile(e: any) {
-    const loadingScreen = document.getElementById("loading-container-id");
-    const imageDropTitle = document.getElementById("image-drop-title-id");
-    const fileUploadLabel = document.getElementById("file-upload-label-id");
-    const convertedTextContainer = document.getElementById(
-      "converted-text-container-id"
-    );
-    const saveData = document.getElementById("save-data-id");
-    loadingScreen!.style.display = "flex";
-    imageDropTitle!.style.display = "none";
-    fileUploadLabel!.style.display = "none";
-    console.log(typeof e);
-    const imgFile = e.target.files[0];
-    console.log(typeof imgFile);
-    const formData = new FormData();
-    formData.append("file", imgFile);
-    console.log(formData);
-    setCurrentFile(e.target.files[0]);
-    const url = `${process.env.REACT_APP_SERVER}/imageconvert`;
-    const response = await fetch(url, {
-      method: "POST",
-      mode: "cors",
-      body: formData,
-      /*headers: {
+  let sidePanel: React.MutableRefObject<boolean> = useRef(false);
+  let sidePanelCount: React.MutableRefObject<number> = useRef(0);
+
+  //below we grab the uploaded file and convert it into text and display to user
+  async function getFile(e: any): Promise<void> {
+    try {
+      const loadingScreen: HTMLElement | null = document.getElementById(
+        "loading-container-id"
+      );
+      const imageDropTitle: HTMLElement | null = document.getElementById(
+        "image-drop-title-id"
+      );
+      const fileUploadLabel: HTMLElement | null = document.getElementById(
+        "file-upload-label-id"
+      );
+      const convertedTextContainer: HTMLElement | null =
+        document.getElementById("converted-text-container-id");
+      const saveData: HTMLElement | null =
+        document.getElementById("save-data-id");
+      loadingScreen!.style.display = "flex";
+      imageDropTitle!.style.display = "none";
+      fileUploadLabel!.style.display = "none";
+      console.log(typeof e);
+      const imgFile = e.target.files[0];
+      console.log(typeof imgFile);
+      const formData: FormData = new FormData();
+      formData.append("file", imgFile);
+      console.log(formData);
+      setCurrentFile(e.target.files[0]);
+      const url: string = `${process.env.REACT_APP_SERVER}/imageconvert`;
+      const response: Response = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        body: formData,
+        /*headers: {
         //Access: "application/json",
         "Content-Type": "application/json",
       },*/
-      credentials: "include",
-    });
-    const responseJson = await response.json();
-    console.log(responseJson);
-    //this code below happens after we get our response
-    loadingScreen!.style.display = "none";
-    /*imageDropTitle!.style.display = "flex";
-    fileUploadLabel!.style.display = "flex";*/
-    convertedTextContainer!.style.display = "flex";
-    setCurrentString(responseJson["success"]);
-    saveData!.style.display = "flex";
+        credentials: "include",
+      });
+      const responseJson = await response.json();
+      if (Object.keys(responseJson)[0] === "success") {
+        console.log(responseJson);
+        loadingScreen!.style.display = "none";
+        convertedTextContainer!.style.display = "flex";
+        setCurrentString(responseJson["success"]);
+        saveData!.style.display = "flex";
+      } else {
+        console.log("could not convert into text");
+        window.location.reload();
+      }
+    } catch (e) {
+      console.log(e);
+      window.location.reload();
+    }
   }
 
   //below we use a get request to autenticate user form server and update loggedIn state
-  async function auth() {
-    const url = `${process.env.REACT_APP_SERVER}/auth`;
-    const response = await fetch(url, {
+  async function auth(): Promise<void> {
+    const url: string = `${process.env.REACT_APP_SERVER}/auth`;
+    const response: Response = await fetch(url, {
       method: "GET",
       mode: "cors",
       headers: {
@@ -81,9 +95,9 @@ function Home() {
       },
       credentials: "include",
     });
-    const compareResponse = await response.json();
+    const compareResponse: authObject = await response.json();
     try {
-      if (compareResponse["success"] === "user authenticated") {
+      if (Object.keys(compareResponse)[0] === "success") {
         //here we are authenticated and we need to set our useState hook as true;
         setLoggedIn(true);
         console.log("success user authenticated");
@@ -99,12 +113,16 @@ function Home() {
   }
 
   //below function renders specific login buttons depending on the return value of our auth func
-  async function buttonRender(func: Function) {
+  async function buttonRender(func: Function): Promise<void> {
     func();
-    const registerButton = document.getElementById("register-button-id");
-    const loginButton = document.getElementById("login-button-id");
-    const logoutButton = document.getElementById("logout-button-id");
-    const userButton = document.getElementById("user-button-id");
+    const registerButton: HTMLElement | null =
+      document.getElementById("register-button-id");
+    const loginButton: HTMLElement | null =
+      document.getElementById("login-button-id");
+    const logoutButton: HTMLElement | null =
+      document.getElementById("logout-button-id");
+    const userButton: HTMLElement | null =
+      document.getElementById("user-button-id");
 
     if (loggedIn) {
       registerButton!.style.display = "none";
@@ -123,10 +141,10 @@ function Home() {
     buttonRender(auth);
   }, [loggedIn]);*/
 
-  async function imagConverter(e: any) {
+  async function imagConverter(e: any): Promise<void> {
     e.preventDefault();
     console.log("hi");
-    const url = `${process.env.REACT_APP_SERVER}/imageconvert`;
+    const url: string = `${process.env.REACT_APP_SERVER}/imageconvert`;
     const response = await fetch(url, {
       mode: "cors",
       headers: {
@@ -146,11 +164,16 @@ function Home() {
     //setSidePanelCount((sidePanelCount += 1));
     sidePanel.current = true;
     sidePanelCount.current = sidePanelCount.current += 1;
-    const navbar = document.getElementById("navbarId");
-    const registerRedirect = document.getElementById("register-redirect-id");
-    const loginRedirect = document.getElementById("login-redirect-id");
-    const logoutRedirect = document.getElementById("logout-redirect-id");
-    const userRedirect = document.getElementById("user-redirect-id");
+    const navbar: HTMLElement | null = document.getElementById("navbarId");
+    const registerRedirect: HTMLElement | null = document.getElementById(
+      "register-redirect-id"
+    );
+    const loginRedirect: HTMLElement | null =
+      document.getElementById("login-redirect-id");
+    const logoutRedirect: HTMLElement | null =
+      document.getElementById("logout-redirect-id");
+    const userRedirect: HTMLElement | null =
+      document.getElementById("user-redirect-id");
 
     if (navbar!.style.width != "50%") {
       navbar!.style.width = "50%";
@@ -200,7 +223,7 @@ function Home() {
     }
   }
   //I'm thinking we need one more function here to open up the title box and then we enter all of it in at once.
-  async function openSaveConversion() {
+  async function openSaveConversion(): Promise<void> {
     //changes start here on 6/18/2022
     if (!loggedIn) {
       console.log("nopes");
@@ -208,22 +231,28 @@ function Home() {
       window.location.replace("/register");
     } else {
       //changes end here on 6/18/2022
-      const postTitle = document.getElementById("post-title-id");
-      const postTitleContent = document.getElementById("post-title-content-id");
+      const postTitle: HTMLElement | null =
+        document.getElementById("post-title-id");
+      const postTitleContent: HTMLElement | null = document.getElementById(
+        "post-title-content-id"
+      );
       postTitle!.style.display = "flex";
       postTitleContent!.style.display = "flex";
     }
   }
 
-  function closeSaveConversion() {
-    const postTitle = document.getElementById("post-title-id");
-    const postTitleContent = document.getElementById("post-title-content-id");
+  function closeSaveConversion(): void {
+    const postTitle: HTMLElement | null =
+      document.getElementById("post-title-id");
+    const postTitleContent: HTMLElement | null = document.getElementById(
+      "post-title-content-id"
+    );
     postTitle!.style.display = "none";
     postTitleContent!.style.display = "none";
   }
 
   function test(): string {
-    const titleOfPost = (
+    const titleOfPost: string = (
       document.getElementById("save-title-input-id") as HTMLInputElement
     ).value;
     //changes on 6/20 title is saving old state
@@ -231,15 +260,15 @@ function Home() {
     //setCurrentTitle(titleOfPost);
   }
 
-  async function saveConversion(e: any) {
+  async function saveConversion(e: any): Promise<void> {
     e.preventDefault();
     try {
       console.log(currentFile);
       if (loggedIn) {
-        let titleOfPost = test();
+        let titleOfPost: string = test();
         console.log(currentTitle);
         console.log("QW");
-        const formData = new FormData();
+        const formData: FormData = new FormData();
         formData.append("file", currentFile);
         //changes start here for 6/17
         formData.append("stringConversion", currentString);
@@ -247,8 +276,8 @@ function Home() {
         formData.append("title", titleOfPost);
         //changes end here for 6/17
         console.log(formData);
-        const url = `${process.env.REACT_APP_SERVER}/userdata`;
-        const response = await fetch(url, {
+        const url: string = `${process.env.REACT_APP_SERVER}/userdata`;
+        const response: Response = await fetch(url, {
           method: "POST",
           mode: "cors",
           body: formData,
@@ -259,10 +288,12 @@ function Home() {
         if (Object.keys(responseJson)[0] === "failure") {
           window.location.reload();
         } else {
-          let postTitle = document.getElementById("post-title-id");
+          let postTitle: HTMLElement | null =
+            document.getElementById("post-title-id");
           postTitle!.style.display = "none";
           //now we add code to create a new button to replace save conversion over to view posts tab
-          const newUserButton = document.createElement("button");
+          const newUserButton: HTMLButtonElement =
+            document.createElement("button");
           const saveDataButton: HTMLElement | null = document.getElementById(
             "save-data-button-first"
           );
@@ -304,51 +335,60 @@ function Home() {
   function reloadPage() {
     window.location.reload();
   }
+
   //copying over from user page
   function navbarClose(e: any): void {
     console.log("clicking here");
     console.log(menu);
-    const slidingNav = document.getElementById("navbarId");
-    let sizeOfNav = slidingNav!.clientWidth;
-    let currentMousePosition = e.pageX;
+    const slidingNav: HTMLElement | null = document.getElementById("navbarId");
+    let sizeOfNav: number = slidingNav!.clientWidth;
+    let currentMousePosition: number = e.pageX;
     console.log(currentMousePosition);
     console.log(sizeOfNav);
     if (menu && currentMousePosition > sizeOfNav) {
       console.log("hasdfasfdasfda");
       slidingNav!.style.width = "0";
       setMenu(false);
-      const hamburgerButton = document.getElementById("menu-btn-id");
+      const hamburgerButton: HTMLElement | null =
+        document.getElementById("menu-btn-id");
       hamburgerButton?.classList.remove("open");
     }
   }
 
   //changes here for drop file
-  const dropFile = async (e: any) => {
+  const dropFile = async (e: any): Promise<void> => {
     e.preventDefault();
     console.log("files dropped");
     //console.log(e.target.files[0]);
-    console.log(e.dataTransfer.items[0].getAsFile());
+    console.log(typeof e.dataTransfer.items[0].getAsFile());
     const droppedFile = e.dataTransfer.items[0].getAsFile();
     //I can't access getFile due to it not workign properly so we will need to impliment it here!
-    const loadingScreen = document.getElementById("loading-container-id");
-    const imageDropTitle = document.getElementById("image-drop-title-id");
-    const fileUploadLabel = document.getElementById("file-upload-label-id");
-    const convertedTextContainer = document.getElementById(
+    const loadingScreen: HTMLElement | null = document.getElementById(
+      "loading-container-id"
+    );
+    const imageDropTitle: HTMLElement | null = document.getElementById(
+      "image-drop-title-id"
+    );
+    const fileUploadLabel: HTMLElement | null = document.getElementById(
+      "file-upload-label-id"
+    );
+    const convertedTextContainer: HTMLElement | null = document.getElementById(
       "converted-text-container-id"
     );
-    const saveData = document.getElementById("save-data-id");
+    const saveData: HTMLElement | null =
+      document.getElementById("save-data-id");
     loadingScreen!.style.display = "flex";
     imageDropTitle!.style.display = "none";
     fileUploadLabel!.style.display = "none";
     console.log(typeof e);
     const imgFile = droppedFile;
     console.log(typeof imgFile);
-    const formData = new FormData();
+    const formData: FormData = new FormData();
     formData.append("file", imgFile);
     console.log(formData);
     setCurrentFile(imgFile);
-    const url = `${process.env.REACT_APP_SERVER}/imageconvert`;
-    const response = await fetch(url, {
+    const url: string = `${process.env.REACT_APP_SERVER}/imageconvert`;
+    const response: Response = await fetch(url, {
       method: "POST",
       mode: "cors",
       body: formData,
@@ -369,7 +409,7 @@ function Home() {
     saveData!.style.display = "flex";
   };
 
-  const dragoverHandler = (e: any) => {
+  const dragoverHandler = (e: any): void => {
     e.preventDefault();
     console.log("files dragged over");
   };

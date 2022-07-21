@@ -7,12 +7,13 @@ import { NONAME } from "dns";
 
 function Hamburger(props: any) {
   //let [menu, setMenu] = useState(props.menu);
-  let menu = props.menu;
-  let setMenu = props.setMenu;
-  let navbar = document.getElementById("navbarId");
+  let menu: boolean = props.menu;
+  let setMenu: React.Dispatch<React.SetStateAction<boolean>> = props.setMenu;
+  let navbar: HTMLElement | null = document.getElementById("navbarId");
   console.log(menu);
-  function hamburgerAction() {
-    const hamburgerButton = document.getElementById("menu-btn-id");
+  function hamburgerAction(): void {
+    const hamburgerButton: HTMLElement | null =
+      document.getElementById("menu-btn-id");
     if (!menu || navbar?.style.width != "50%") {
       hamburgerButton?.classList.add("open");
       setMenu(true);
