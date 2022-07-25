@@ -1,23 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import logo from "./logo.svg";
 import "../styles/Register.css";
-import { isConstructorDeclaration } from "typescript";
 import Navbar from "./Navbar";
 import SlidingNavbar from "./SlidingNavbar";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useLocation,
-  useNavigate,
-  useOutletContext,
-} from "react-router-dom";
+import { BrowserRouter as Router, useOutletContext } from "react-router-dom";
 
 function Register() {
   //state for menu button
   let [menu, setMenu] = useState(false);
-
   //below is our passed in login context from protected routes
   const loggedIn: boolean = useOutletContext();
 
@@ -31,8 +20,6 @@ function Register() {
       document.getElementById("passwordId") as HTMLInputElement
     ).value;
     const url: string = `${process.env.REACT_APP_SERVER}/register`;
-    //console.log(email);
-    //console.log(password);
     const data = { user: email, pass: password };
     const response: Response = await fetch(url, {
       method: "POST",
@@ -46,7 +33,6 @@ function Register() {
     });
     const content = await response.json();
     console.log(content);
-    /*changes here on 7/11 to add error outlines when failure response comes back*/
     if (Object.keys(content)[0] === "failure") {
       const emailInput: HTMLElement | null = document.getElementById("emailId");
       const passwordInput: HTMLElement | null =
@@ -147,39 +133,12 @@ function Register() {
     }
   });
 
-  function LoginBiggerScreenLinks(): void {
-    console.log("register testing if function works");
-    if (window.innerWidth > 768) {
-      const loginLink: HTMLElement | null = document.getElementById(
-        "login-register-link-1"
-      );
-      const logoutLink: HTMLElement | null = document.getElementById(
-        "logout-register-link-2"
-      );
-      const userLink: HTMLElement | null = document.getElementById(
-        "user-register-link-3"
-      );
-      const homeLink: HTMLElement | null = document.getElementById(
-        "home-register-link-4"
-      );
-
-      if (loggedIn) {
-        loginLink!.style.display = "none";
-      } else {
-        logoutLink!.style.display = "none";
-        userLink!.style.display = "none";
-      }
-    }
-  }
-
   window.addEventListener("resize", (e) => {
     console.log("hello change");
     const navbar = document.getElementById("navbarId");
     const menuButton = document.getElementById("menu-btn-id");
-
     if (window.innerWidth > 1023) {
       navbar!.style.width = "0%";
-      //sidePanelCount.current = 0;
       menuButton?.classList.remove("open");
       setMenu(false);
     }
@@ -187,7 +146,6 @@ function Register() {
 
   useEffect(() => {
     slidingNavbarStyling();
-    //LoginBiggerScreenLinks();
   });
 
   return (
@@ -203,7 +161,6 @@ function Register() {
         <div className="register-navbar-links">
           <a
             href="/login"
-            /*to="/login"*/
             className="register-link-styling"
             id="login-register-link-l"
           >
@@ -211,7 +168,6 @@ function Register() {
           </a>
           <a
             href="/"
-            /*to="/"*/
             className="register-link-styling"
             id="logout-register-link-2"
           >
@@ -219,7 +175,6 @@ function Register() {
           </a>
           <a
             href="user"
-            /*to="/user"*/
             className="register-link-styling"
             id="user-register-link-3"
           >
@@ -227,7 +182,6 @@ function Register() {
           </a>
           <a
             href="/"
-            /*to="/"*/
             className="register-link-styling"
             id="home-register-link-4"
           >

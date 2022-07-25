@@ -1,14 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Auth from "./Auth";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  Outlet,
-  useLocation,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Outlet, Navigate } from "react-router-dom";
 import { authObject } from "../services/interfaces";
 
 function ProtectedRoutes(children: any) {

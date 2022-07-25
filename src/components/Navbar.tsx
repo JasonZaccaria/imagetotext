@@ -3,7 +3,7 @@ import "../styles/Navbar.css";
 import Hamburger from "./Hamburger";
 
 function Navbar(props: any) {
-  //this state keeps track fi the side panel is open or not
+  //this state keeps track of the side panel to see if its open or not
   let menu: boolean = props.menu;
   let setMenu: React.Dispatch<React.SetStateAction<boolean>> = props.setMenu;
   function navbarOpen(): void {
@@ -14,18 +14,6 @@ function Navbar(props: any) {
     } else {
       slidingNav!.style.width = "0%";
       setMenu(false);
-    }
-  }
-
-  function navbarClose(): void {
-    if (menu) {
-      const slidingNav: HTMLElement | null =
-        document.getElementById("navbarId");
-      slidingNav!.style.width = "0";
-      setMenu(false);
-      const hamburgerButton: HTMLElement | null =
-        document.getElementById("menu-btn-id");
-      hamburgerButton?.classList.remove("open");
     }
   }
 

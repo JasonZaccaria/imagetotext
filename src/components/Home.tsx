@@ -1,26 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import logo from "./logo.svg";
 import "../styles/Home.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-import { NONAME } from "dns";
 import Hamburger from "./Hamburger";
 import SlidingNavbar from "./SlidingNavbar";
 import LoadingAnimation from "./LoadingAnimation";
-import { findByLabelText } from "@testing-library/react";
 import logouter from "./Logouter";
 import { authObject } from "../services/interfaces";
 
 function Home() {
   /*below we have our states for managing logged in, menu, curretfiles, and refs
   for our sidepanel*/
-  //const navigate = useNavigate(); //just removed this i hope it does not break
   let [loggedIn, setLoggedIn] = useState(false);
   let [menu, setMenu] = useState(false);
   let [currentFile, setCurrentFile] = useState(new Blob());
@@ -137,31 +125,9 @@ function Home() {
     }
   }
 
-  /*useEffect(() => {
-    buttonRender(auth);
-  }, [loggedIn]);*/
-
-  async function imagConverter(e: any): Promise<void> {
-    e.preventDefault();
-    console.log("hi");
-    const url: string = `${process.env.REACT_APP_SERVER}/imageconvert`;
-    const response = await fetch(url, {
-      mode: "cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-    const responseJson = await response.json();
-    console.log(responseJson);
-  }
-
   function navbarOpen(): void {
-    //this function opens up the side navbar on button click and renders only specific buttons
-    //depending on if user is logged in or not
-    //setSidePanel(true);
-    //setSidePanelCount((sidePanelCount += 1));
+    /*this function opens up the side navbar on button click and renders only specific buttons
+    depending on if user is logged in or not*/
     sidePanel.current = true;
     sidePanelCount.current = sidePanelCount.current += 1;
     const navbar: HTMLElement | null = document.getElementById("navbarId");
@@ -182,7 +148,6 @@ function Home() {
       navbar!.style.width = "0%";
       sidePanel.current = false;
     }
-    //navbar!.style.width = "50%";
     console.log(loggedIn);
     if (loggedIn) {
       registerRedirect!.style.display = "none";
@@ -197,40 +162,11 @@ function Home() {
     }
   }
 
-  function closeSideBar(e: any) {
-    console.log(window.innerWidth);
-    sidePanelCount.current++;
-    console.log(sidePanelCount.current);
-    const navbar = document.getElementById("navbarId");
-    const menuButton = document.getElementById("menu-btn-id");
-    const mouseX = e.pageX;
-    const mouseY = e.pageY;
-    if (sidePanel.current && sidePanelCount.current >= 3) {
-      console.log("h");
-      navbar!.style.width = "0%";
-      sidePanelCount.current = 0;
-      sidePanel.current = false;
-      //also i need to reset the hamburger classes
-      menuButton?.classList.remove("open");
-      setMenu(false);
-    } else if (!sidePanel.current) {
-      console.log("hi");
-      navbar!.style.width = "0%";
-      sidePanelCount.current = 0;
-      sidePanel.current = false;
-      //setMenu(false);
-      //menuButton?.classList.add("open");
-    }
-  }
-  //I'm thinking we need one more function here to open up the title box and then we enter all of it in at once.
   async function openSaveConversion(): Promise<void> {
-    //changes start here on 6/18/2022
     if (!loggedIn) {
       console.log("nopes");
-      /*navigate("/register");*/
       window.location.replace("/register");
     } else {
-      //changes end here on 6/18/2022
       const postTitle: HTMLElement | null =
         document.getElementById("post-title-id");
       const postTitleContent: HTMLElement | null = document.getElementById(
@@ -255,9 +191,7 @@ function Home() {
     const titleOfPost: string = (
       document.getElementById("save-title-input-id") as HTMLInputElement
     ).value;
-    //changes on 6/20 title is saving old state
     return titleOfPost;
-    //setCurrentTitle(titleOfPost);
   }
 
   async function saveConversion(e: any): Promise<void> {
@@ -270,11 +204,8 @@ function Home() {
         console.log("QW");
         const formData: FormData = new FormData();
         formData.append("file", currentFile);
-        //changes start here for 6/17
         formData.append("stringConversion", currentString);
-        //formData.append("title", currentTitle);
         formData.append("title", titleOfPost);
-        //changes end here for 6/17
         console.log(formData);
         const url: string = `${process.env.REACT_APP_SERVER}/userdata`;
         const response: Response = await fetch(url, {
@@ -317,8 +248,8 @@ function Home() {
     }
   }
 
-  //below event listener closed the side navbar and resets menu button back to
-  //normal after window resize
+  /*below event listener closes the side navbar and resets menu button back to
+  normal after window resize*/
   window.addEventListener("resize", (e) => {
     console.log("hello change");
     const navbar = document.getElementById("navbarId");
@@ -400,10 +331,7 @@ function Home() {
     });
     const responseJson = await response.json();
     console.log(responseJson);
-    //this code below happens after we get our response
     loadingScreen!.style.display = "none";
-    /*imageDropTitle!.style.display = "flex";
-    fileUploadLabel!.style.display = "flex";*/
     convertedTextContainer!.style.display = "flex";
     setCurrentString(responseJson["success"]);
     saveData!.style.display = "flex";
@@ -414,14 +342,12 @@ function Home() {
     console.log("files dragged over");
   };
 
-  //changes end here for drop file
-
   useEffect(() => {
     buttonRender(auth);
   }, [loggedIn]);
 
   return (
-    <div className="Home" /*onClick={closeSideBar}*/ onClick={navbarClose}>
+    <div className="Home" onClick={navbarClose}>
       <header className="navbar">
         <div className="page-title-container">
           <h1 className="page-title">Image To Text</h1>
@@ -430,19 +356,10 @@ function Home() {
           <Hamburger menu={menu} setMenu={setMenu} />
         </nav>
         <nav className="links">
-          <a
-            href="/register"
-            className="register-link"
-            id="register-button-id"
-            /*to="/register"*/
-          >
+          <a href="/register" className="register-link" id="register-button-id">
             Register
           </a>
-          <a
-            href="/login"
-            className="login-link"
-            id="login-button-id" /*to="/login"*/
-          >
+          <a href="/login" className="login-link" id="login-button-id">
             Login
           </a>
           <a
@@ -453,12 +370,7 @@ function Home() {
           >
             Logout
           </a>
-          <a
-            href="/user"
-            className="userprofile-link"
-            id="user-button-id"
-            /*to="/userprofile"*/
-          >
+          <a href="/user" className="userprofile-link" id="user-button-id">
             Posts
           </a>
         </nav>

@@ -1,7 +1,6 @@
 import Auth from "./Auth";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import { render } from "@testing-library/react";
 import { authObject } from "../services/interfaces";
 function ProtectedUser(children: any) {
   let [loggedIn, setLoggedIn] = useState(true);
@@ -17,9 +16,6 @@ function ProtectedUser(children: any) {
       setLoggedIn(false);
     }
   };
-  /*useEffect(() => {
-    getAuth();
-  }, [loggedIn]);*/
   getAuth();
   return loggedIn ? <Outlet /> : <Navigate to="/" replace />;
 }

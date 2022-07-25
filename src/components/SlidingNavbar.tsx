@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import logouter from "./Logouter";
 import "../styles/SlidingNavbar.css";
 
@@ -9,12 +8,12 @@ function SlidingNavbar() {
       <div className="nav-title">Menu</div>
       <div className="navbar-links">
         <div className="redirect" id="register-redirect-id">
-          <a href="/register" /*to="/register"*/ className="redirect">
+          <a href="/register" className="redirect">
             Register
           </a>
         </div>
         <div className="redirect" id="login-redirect-id">
-          <a href="/login" /*to="/login"*/ className="redirect">
+          <a href="/login" className="redirect">
             Login
           </a>
         </div>
@@ -24,12 +23,12 @@ function SlidingNavbar() {
           </a>
         </div>
         <div className="redirect" id="user-redirect-id">
-          <a href="/user" /*to="/user"*/ className="redirect">
+          <a href="/user" className="redirect">
             Posts
           </a>
         </div>
         <div className="redirect" id="home-redirect-id">
-          <a href="/" /*to="/"*/ className="redirect">
+          <a href="/" className="redirect">
             Home
           </a>
         </div>

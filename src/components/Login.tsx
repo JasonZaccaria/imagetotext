@@ -1,28 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
-import logo from "./logo.svg";
 import "../styles/Login.css";
-import { isConstructorDeclaration } from "typescript";
-import Hamburger from "./Hamburger";
 import SlidingNavbar from "./SlidingNavbar";
 import Navbar from "./Navbar";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useLocation,
-  useNavigate,
-  useOutletContext,
-  useOutlet,
-} from "react-router-dom";
+import { BrowserRouter as Router, useOutletContext } from "react-router-dom";
 import logouter from "./Logouter";
 
 function Login() {
   //state for menu button and navbar
   let [menu, setMenu] = useState(false);
 
-  //below we will have our loggedIn context variable we are passed from our protected routes
-  //now we will use this logged in variable in our useeffect to adjust the links the user sees
+  /*below we will have our loggedIn context variable we are passed from our protected routes
+  now we will use this logged in variable in our useeffect to adjust the links the user sees*/
   const loggedIn: boolean = useOutletContext();
   console.log(loggedIn);
 
@@ -40,8 +28,6 @@ function Login() {
       document.getElementById("loginPasswordId") as HTMLInputElement
     ).value;
     const url: string = `${process.env.REACT_APP_SERVER}/login`;
-    //console.log(email);
-    //console.log(password);
     const data = { user: email, pass: password };
     const response: Response = await fetch(url, {
       method: "POST",
@@ -55,7 +41,6 @@ function Login() {
     });
     const content = await response.json();
     console.log(content);
-    /*new changes here 7/11*/
     if (Object.keys(content)[0] === "accessToken") {
       window.location.replace("/");
     } else {
@@ -171,9 +156,7 @@ function Login() {
       document.getElementById("menu-btn-id");
     //we resize as well as alter which links we saw on the top of the page based on if user is logged in or not
     if (window.innerWidth > 1023) {
-      //LoginBiggerScreenLinks();
       navbar!.style.width = "0%";
-      //sidePanelCount.current = 0;
       menuButton?.classList.remove("open");
       setMenu(false);
     }
@@ -181,7 +164,6 @@ function Login() {
 
   useEffect(() => {
     slidingNavbarStyling();
-    //LoginBiggerScreenLinks();
   }, []);
   return (
     <div className="Login" onClick={navbarClose}>
@@ -194,7 +176,6 @@ function Login() {
         <div className="login-navbar-links">
           <a
             href="/register"
-            /*to="/register"*/
             className="login-link-styling"
             id="register-login-link-l"
           >
@@ -202,25 +183,16 @@ function Login() {
           </a>
           <a
             href="/"
-            /*to="/*/ className="login-link-styling"
+            className="login-link-styling"
             id="logout-login-link-2"
             onClick={logouter}
           >
             Logout
           </a>
-          <a
-            href="/user"
-            /*to="/user"*/
-            className="login-link-styling"
-            id="user-login-link-3"
-          >
+          <a href="/user" className="login-link-styling" id="user-login-link-3">
             User
           </a>
-          <a
-            href="/"
-            /*to="/"*/ className="login-link-styling"
-            id="home-login-link-4"
-          >
+          <a href="/" className="login-link-styling" id="home-login-link-4">
             Home
           </a>
         </div>

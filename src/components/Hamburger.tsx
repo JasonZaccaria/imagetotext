@@ -1,12 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
-import logo from "./logo.svg";
+import React from "react";
 import "../styles/Hamburger.css";
-//import { isConstructorDeclaration } from "typescript";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { NONAME } from "dns";
 
 function Hamburger(props: any) {
-  //let [menu, setMenu] = useState(props.menu);
   let menu: boolean = props.menu;
   let setMenu: React.Dispatch<React.SetStateAction<boolean>> = props.setMenu;
   let navbar: HTMLElement | null = document.getElementById("navbarId");
