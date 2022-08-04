@@ -141,7 +141,7 @@ function Home() {
     const userRedirect: HTMLElement | null =
       document.getElementById("user-redirect-id");
 
-    if (navbar!.style.width != "50%") {
+    if (navbar!.style.width !== "50%") {
       navbar!.style.width = "50%";
       sidePanel.current = true;
     } else {
@@ -293,7 +293,6 @@ function Home() {
     //console.log(e.target.files[0]);
     console.log(typeof e.dataTransfer.items[0].getAsFile());
     const droppedFile = e.dataTransfer.items[0].getAsFile();
-    //I can't access getFile due to it not workign properly so we will need to impliment it here!
     const loadingScreen: HTMLElement | null = document.getElementById(
       "loading-container-id"
     );

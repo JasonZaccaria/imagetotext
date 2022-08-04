@@ -4,7 +4,6 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(12, 1fr);
-  /*background-image: linear-gradient(rgb(135, 28, 168), rgb(62, 34, 185));*/
   background-image: url("../assets/Landscape-with-blue-and-purple-silhouettes-of-mountains-and-hills-18612.jpg");
   background-size: 100% 100%;
 }
@@ -39,7 +38,6 @@
 }
 
 .form-container {
-  /*background-color: rgb(42, 173, 145);*/
   background-color: white;
   width: 100%;
   max-width: 300px;
@@ -169,7 +167,7 @@
     font-size: 2em;
   }
   .register-navbar-links {
-    width: 30%; /*changed from 40% on 7/11*/
+    width: 30%;
     height: 100%;
     display: flex;
     justify-content: space-evenly;
@@ -180,7 +178,7 @@
     text-decoration: none;
     color: black;
     background-color: rgb(141, 135, 252);
-    width: 30%; /*changed from 20% on 7/11*/
+    width: 30%;
     height: 35%;
     display: flex;
     justify-content: center;

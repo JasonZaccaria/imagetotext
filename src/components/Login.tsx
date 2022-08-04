@@ -1,63 +1,87 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Login.css";
 import SlidingNavbar from "./SlidingNavbar";
 import Navbar from "./Navbar";
-import { BrowserRouter as Router, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import logouter from "./Logouter";
 
 function Login() {
   //state for menu button and navbar
   let [menu, setMenu] = useState(false);
-
+  let [incorrectPass, setIncorrectPass] = useState(0);
   /*below we will have our loggedIn context variable we are passed from our protected routes
   now we will use this logged in variable in our useeffect to adjust the links the user sees*/
   const loggedIn: boolean = useOutletContext();
   console.log(loggedIn);
-
   //function to post user data to register them
+  //also includes a request to check for a halt cookie if user has too many attempts
   async function post(e: any): Promise<void> {
     e.preventDefault();
-    const submitButton: HTMLButtonElement | null = document.getElementById(
-      "login-submit-button-id"
-    ) as HTMLButtonElement | null;
-    submitButton!.disabled = true;
-    const email: string = (
-      document.getElementById("loginEmailId") as HTMLInputElement
-    ).value;
-    const password: string = (
-      document.getElementById("loginPasswordId") as HTMLInputElement
-    ).value;
-    const url: string = `${process.env.REACT_APP_SERVER}/login`;
-    const data = { user: email, pass: password };
-    const response: Response = await fetch(url, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(data),
-    });
-    const content = await response.json();
-    console.log(content);
-    if (Object.keys(content)[0] === "accessToken") {
-      window.location.replace("/");
+    if (incorrectPass < 10) {
+      const submitButton: HTMLButtonElement | null = document.getElementById(
+        "login-submit-button-id"
+      ) as HTMLButtonElement | null;
+      submitButton!.disabled = true;
+      const email: string = (
+        document.getElementById("loginEmailId") as HTMLInputElement
+      ).value;
+      const password: string = (
+        document.getElementById("loginPasswordId") as HTMLInputElement
+      ).value;
+      const url: string = `${process.env.REACT_APP_SERVER}/login`;
+      const data = { user: email, pass: password };
+      const response: Response = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(data),
+      });
+      const content = await response.json();
+      console.log(content);
+      if (Object.keys(content)[0] === "accessToken") {
+        window.location.replace("/");
+      } else if (Object.keys(content)[0] === "halt") {
+        window.location.replace("/");
+      } else {
+        const emailInput: HTMLElement | null =
+          document.getElementById("loginEmailId");
+        const passwordInput: HTMLElement | null =
+          document.getElementById("loginPasswordId");
+        const forgotPassword: HTMLElement | null =
+          document.getElementById("forgot-password-id");
+        emailInput!.style.border = "solid 2px red";
+        emailInput!.style.borderRadius = "5px";
+        passwordInput!.style.border = "solid 2px red";
+        passwordInput!.style.borderRadius = "5px";
+        forgotPassword!.style.display = "flex";
+        console.log("not workign as intended");
+      }
+      submitButton!.disabled = false;
+      setIncorrectPass((incorrectPass += 1));
+      console.log(incorrectPass);
     } else {
-      const emailInput: HTMLElement | null =
-        document.getElementById("loginEmailId");
-      const passwordInput: HTMLElement | null =
-        document.getElementById("loginPasswordId");
-      const forgotPassword: HTMLElement | null =
-        document.getElementById("forgot-password-id");
-      emailInput!.style.border = "solid 2px red";
-      emailInput!.style.borderRadius = "5px";
-      passwordInput!.style.border = "solid 2px red";
-      passwordInput!.style.borderRadius = "5px";
-      forgotPassword!.style.display = "flex";
-      console.log("not workign as intended");
+      const haltUser = async () => {
+        const url: string = `${process.env.REACT_APP_SERVER}/halt`;
+        const response: Response = await fetch(url, {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const getResponseJson = await response.json();
+        console.log(getResponseJson);
+      };
+      haltUser();
+      let c = document.cookie;
+      console.log(c);
     }
-    submitButton!.disabled = false;
   }
 
   //here are the links we show for our navbar on this page

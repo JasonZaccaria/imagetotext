@@ -12,19 +12,6 @@ function User(props: any) {
   //must set menu state to pass into navbar component
   let [menu, setMenu] = useState(false);
   let [updateOnce, setUpdateOnce] = useState();
-  //let [loggedIn, setLoggedIn] = useState(false);
-  //let menu = useRef(false);
-
-  /*async function logouter() {
-    const response = await fetch("http://127.0.0.1:8000/logout", {
-      mode: "cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-  }*/
 
   function navbarClose(e: any): void {
     console.log("clicking here");
@@ -55,6 +42,13 @@ function User(props: any) {
   }
 
   async function getUserData() {
+    //first i will stop user from accessing the nav links
+    const userLinksLogout = document.getElementById("user-links-logout");
+    const userLinksHome = document.getElementById("user-links-home");
+    userLinksLogout!.style.pointerEvents = "none";
+    userLinksHome!.style.pointerEvents = "none";
+
+    //then i will start by restyling the loading animation
     const loadingContainer = document.getElementById(
       "loading-animation-container-id"
     );
@@ -70,6 +64,8 @@ function User(props: any) {
     loadingDotTwo!.style.height = "1.5em";
     loadingDotThree!.style.width = "1.5em";
     loadingDotThree!.style.height = "1.5em";
+
+    //here i am making a fetch request to my backend in order to get our user data
     const url: string = `${process.env.REACT_APP_SERVER}/data`;
     const response = await fetch(url, {
       mode: "cors",
@@ -79,18 +75,11 @@ function User(props: any) {
       },
       credentials: "include",
     });
-    //const readResponse = await response.blob();
-    /*const readResponse = await response.json();
-    let myImage = document.querySelector("img");
-    console.log(readResponse);
-    myImage!.src = `data:image/png;base64,${readResponse["image"][0]}`;
 
-    for (let i = 0; i < readResponse["image"].length; i++) {
-      console.log("hi");
-    }*/
-    //above can be uncommented
-    //changes start below
     const readResponse = await response.json();
+    userLinksLogout!.style.pointerEvents = "all";
+    userLinksHome!.style.pointerEvents = "all";
+
     /*now i will stop the animation by closing the animation display*/
     loadingContainer!.style.display = "none";
     const imageSection = document.getElementById("user-data-section-id");
@@ -115,8 +104,6 @@ function User(props: any) {
       let newDate: HTMLParagraphElement = document.createElement("p");
       newDate.classList.add("newDate");
       newTitle.innerHTML = readResponse["image"][i][0];
-      //newDate.innerHTML = readResponse["image"][i][3];
-      /*testing here for date rearranging*/
       let tempDate: Date = new Date(readResponse["image"][i][3]);
       let dateYear = tempDate.getFullYear();
       let dateMonth = tempDate.getMonth();
@@ -163,7 +150,6 @@ function User(props: any) {
         confirmYes.appendChild(yesCheck);
         confirmNo.appendChild(noCheck);
 
-        //test
         confirmNo.addEventListener("click", async () => {
           console.log("testing testing testing");
           confirmYes.remove();
@@ -171,12 +157,11 @@ function User(props: any) {
           confirmText.remove();
           deleteSymbol.style.display = "flex";
         });
-        //test
 
         confirmYes.addEventListener("click", async () => {
-          let firstParent = confirmYes.parentElement; //delete post
-          let secondParent = firstParent?.parentElement; //newuserpostcontent
-          let postContainer = secondParent?.parentElement; //newuserpost
+          let firstParent = confirmYes.parentElement;
+          let secondParent = firstParent?.parentElement;
+          let postContainer = secondParent?.parentElement;
           let imageContainer = postContainer?.firstChild;
           let firstChildOfSecondParent = secondParent?.firstChild;
           let titleFound = firstChildOfSecondParent?.firstChild;
@@ -193,7 +178,6 @@ function User(props: any) {
             credentials: "include",
           });
           console.log(response.json());
-          //below is the logic for closing the delete button and destroying the elements that were created
 
           //now as part of the event listener we will delete the post from the screen after hte response has been retrived
           postContainer!.classList.add("removePost");
@@ -204,8 +188,6 @@ function User(props: any) {
     }
   }
 
-  //below function shows links instead of hamburger button for larger screens
-
   //added over from home page to close navbar if window size is changed too big
   window.addEventListener("resize", (e) => {
     console.log("hello change");
@@ -214,12 +196,11 @@ function User(props: any) {
 
     if (window.innerWidth > 1023) {
       navbar!.style.width = "0%";
-      //sidePanelCount.current = 0;
       menuButton?.classList.remove("open");
       setMenu(false);
     }
   });
-  /*changes on 7/11 to add onload animation*/
+
   useEffect(() => {
     getUserData();
     slidingNavbarStyling();
@@ -227,21 +208,21 @@ function User(props: any) {
 
   return (
     <div className="User" onClick={navbarClose}>
-      <div className="navbar-user" /*onClick={logouter}*/ id="navbar-user-id">
+      <div className="navbar-user" id="navbar-user-id">
         <Navbar menu={menu} setMenu={setMenu} />
       </div>
       <div className="navbar-large-device" id="navbar-large-device-id">
         <h1 className="navbar-large-device-title">Image To Text</h1>
         <div className="navbar-user-link-container">
-          <a href="/" className="user-links" onClick={logouter}>
+          <div className="user-links" id="user-links-logout" onClick={logouter}>
             Logout
-          </a>
-          <a href="/" className="user-links">
+          </div>
+          <a href="/" className="user-links" id="user-links-home">
             Home
           </a>
         </div>
       </div>
-      <div className="sliding-navbar-user">
+      <div className="sliding-navbar-user" id="sliding-navbar-user-id">
         <SlidingNavbar />
       </div>
       <section className="user-data-section" id="user-data-section-id">

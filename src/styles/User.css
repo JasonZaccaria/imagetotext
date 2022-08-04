@@ -25,7 +25,6 @@
 .user-data-section {
   width: 100%;
   height: 100%;
-  /*height: max-content;*/
   grid-row-start: 2;
   grid-row-end: 13;
   grid-column-start: 1;
@@ -37,7 +36,6 @@
 }
 
 .newUserPost {
-  /*width: 90%;*/
   width: 80%;
   height: 250px;
   outline: solid 2px black;
@@ -53,13 +51,10 @@
   height: 100%;
   border-radius: 10px;
   border-top-right-radius: 0px;
-  /*outline: solid 2px black;*/
 }
 
 .newImg {
   width: 100%;
-  /*height: auto;*/
-  /*max-height: 100%;*/
   height: 100%;
   object-fit: cover;
   border-radius: 10px;
@@ -110,10 +105,8 @@
 .deletePost {
   margin-left: auto;
   margin-right: auto;
-  /*width: 20%;*/
   width: 100%;
   height: 20%;
-  /*background-color: red;*/
   text-align: center;
   display: flex;
   justify-content: space-evenly;
@@ -144,7 +137,6 @@
 }
 
 .confirmYes {
-  /*background-color: gray;*/
   width: 20%;
   height: 100%;
   display: flex;
@@ -152,7 +144,6 @@
   justify-content: center;
 }
 .confirmNo {
-  /*background-color: black;*/
   width: 20%;
   height: 100%;
   display: flex;
@@ -163,19 +154,14 @@
 .yesCheck {
   width: 10%;
   height: 100%;
-  /*background-color: beige;*/
-  /*transform: rotate(45deg) translateX(5px) translateY(-5px);*/
 }
 
 .yesCheck::before {
   content: "";
   display: inline-block;
-  /*width: 100%;
-  height: 50%;*/
   width: 0.3em;
   height: 0.8em;
   background-color: beige;
-  /*transform: rotate(-45deg) translateX(-20px) translateY(5px);*/
   transform: rotate(-45deg) translateX(-340%) translateY(45%);
   margin: 0;
 }
@@ -183,12 +169,9 @@
 .yesCheck::after {
   content: "";
   display: inline-block;
-  /*width: 100%;
-  height: 100%;*/
   width: 0.3em;
   height: 2em;
   background-color: beige;
-  /*transform: rotate(45deg) translateX(-10px) translateY(-20px);*/
   transform: rotate(45deg) translateX(-100%) translateY(-50%);
   margin: 0;
 }
@@ -301,7 +284,7 @@
     text-decoration: none;
     color: black;
     background-color: rgb(141, 135, 252);
-    width: 30%; /*changed from 20% on 7/11*/
+    width: 30%;
     height: 35%;
     display: flex;
     justify-content: center;
