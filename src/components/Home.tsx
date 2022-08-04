@@ -36,12 +36,9 @@ function Home() {
       loadingScreen!.style.display = "flex";
       imageDropTitle!.style.display = "none";
       fileUploadLabel!.style.display = "none";
-      console.log(typeof e);
       const imgFile = e.target.files[0];
-      console.log(typeof imgFile);
       const formData: FormData = new FormData();
       formData.append("file", imgFile);
-      console.log(formData);
       setCurrentFile(e.target.files[0]);
       const url: string = `${process.env.REACT_APP_SERVER}/imageconvert`;
       const response: Response = await fetch(url, {
@@ -56,17 +53,14 @@ function Home() {
       });
       const responseJson = await response.json();
       if (Object.keys(responseJson)[0] === "success") {
-        console.log(responseJson);
         loadingScreen!.style.display = "none";
         convertedTextContainer!.style.display = "flex";
         setCurrentString(responseJson["success"]);
         saveData!.style.display = "flex";
       } else {
-        console.log("could not convert into text");
         window.location.reload();
       }
     } catch (e) {
-      console.log(e);
       window.location.reload();
     }
   }
@@ -88,15 +82,12 @@ function Home() {
       if (Object.keys(compareResponse)[0] === "success") {
         //here we are authenticated and we need to set our useState hook as true;
         setLoggedIn(true);
-        console.log("success user authenticated");
       } else {
         //here we need to set our useState hook as false
         setLoggedIn(false);
-        console.log("failure user not logged in");
       }
     } catch (err) {
-      console.log(err);
-      console.log("server issue user not logged in");
+      console.log("");
     }
   }
 
@@ -148,7 +139,6 @@ function Home() {
       navbar!.style.width = "0%";
       sidePanel.current = false;
     }
-    console.log(loggedIn);
     if (loggedIn) {
       registerRedirect!.style.display = "none";
       loginRedirect!.style.display = "none";
@@ -164,7 +154,6 @@ function Home() {
 
   async function openSaveConversion(): Promise<void> {
     if (!loggedIn) {
-      console.log("nopes");
       window.location.replace("/register");
     } else {
       const postTitle: HTMLElement | null =
@@ -197,16 +186,12 @@ function Home() {
   async function saveConversion(e: any): Promise<void> {
     e.preventDefault();
     try {
-      console.log(currentFile);
       if (loggedIn) {
         let titleOfPost: string = test();
-        console.log(currentTitle);
-        console.log("QW");
         const formData: FormData = new FormData();
         formData.append("file", currentFile);
         formData.append("stringConversion", currentString);
         formData.append("title", titleOfPost);
-        console.log(formData);
         const url: string = `${process.env.REACT_APP_SERVER}/userdata`;
         const response: Response = await fetch(url, {
           method: "POST",
@@ -215,7 +200,6 @@ function Home() {
           credentials: "include",
         });
         let responseJson = await response.json();
-        console.log(responseJson);
         if (Object.keys(responseJson)[0] === "failure") {
           window.location.reload();
         } else {
@@ -240,10 +224,8 @@ function Home() {
           });
         }
       }
-
-      console.log("not logged in so no data was saved");
     } catch (error) {
-      console.log(error);
+      console.log("");
       window.location.reload();
     }
   }
@@ -251,7 +233,6 @@ function Home() {
   /*below event listener closes the side navbar and resets menu button back to
   normal after window resize*/
   window.addEventListener("resize", (e) => {
-    console.log("hello change");
     const navbar = document.getElementById("navbarId");
     const menuButton = document.getElementById("menu-btn-id");
 
@@ -269,15 +250,10 @@ function Home() {
 
   //copying over from user page
   function navbarClose(e: any): void {
-    console.log("clicking here");
-    console.log(menu);
     const slidingNav: HTMLElement | null = document.getElementById("navbarId");
     let sizeOfNav: number = slidingNav!.clientWidth;
     let currentMousePosition: number = e.pageX;
-    console.log(currentMousePosition);
-    console.log(sizeOfNav);
     if (menu && currentMousePosition > sizeOfNav) {
-      console.log("hasdfasfdasfda");
       slidingNav!.style.width = "0";
       setMenu(false);
       const hamburgerButton: HTMLElement | null =
@@ -289,9 +265,6 @@ function Home() {
   //changes here for drop file
   const dropFile = async (e: any): Promise<void> => {
     e.preventDefault();
-    console.log("files dropped");
-    //console.log(e.target.files[0]);
-    console.log(typeof e.dataTransfer.items[0].getAsFile());
     const droppedFile = e.dataTransfer.items[0].getAsFile();
     const loadingScreen: HTMLElement | null = document.getElementById(
       "loading-container-id"
@@ -310,12 +283,9 @@ function Home() {
     loadingScreen!.style.display = "flex";
     imageDropTitle!.style.display = "none";
     fileUploadLabel!.style.display = "none";
-    console.log(typeof e);
     const imgFile = droppedFile;
-    console.log(typeof imgFile);
     const formData: FormData = new FormData();
     formData.append("file", imgFile);
-    console.log(formData);
     setCurrentFile(imgFile);
     const url: string = `${process.env.REACT_APP_SERVER}/imageconvert`;
     const response: Response = await fetch(url, {
@@ -329,7 +299,6 @@ function Home() {
       credentials: "include",
     });
     const responseJson = await response.json();
-    console.log(responseJson);
     loadingScreen!.style.display = "none";
     convertedTextContainer!.style.display = "flex";
     setCurrentString(responseJson["success"]);
@@ -338,7 +307,6 @@ function Home() {
 
   const dragoverHandler = (e: any): void => {
     e.preventDefault();
-    console.log("files dragged over");
   };
 
   useEffect(() => {

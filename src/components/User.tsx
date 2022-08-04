@@ -14,15 +14,10 @@ function User(props: any) {
   let [updateOnce, setUpdateOnce] = useState();
 
   function navbarClose(e: any): void {
-    console.log("clicking here");
-    console.log(menu);
     const slidingNav = document.getElementById("navbarId");
     let sizeOfNav = slidingNav!.clientWidth;
     let currentMousePosition = e.pageX;
-    console.log(currentMousePosition);
-    console.log(sizeOfNav);
     if (menu && currentMousePosition > sizeOfNav) {
-      console.log("hasdfasfdasfda");
       slidingNav!.style.width = "0";
       setMenu(false);
       const hamburgerButton = document.getElementById("menu-btn-id");
@@ -130,7 +125,6 @@ function User(props: any) {
       deleteSymbol.classList.add("deleteSymbol");
       deletePost.appendChild(deleteSymbol);
       deleteSymbol.addEventListener("click", () => {
-        console.log("delete button has been activated");
         deleteSymbol.style.display = "none";
         let confirmText = document.createElement("p");
         let confirmYes = document.createElement("div");
@@ -151,7 +145,6 @@ function User(props: any) {
         confirmNo.appendChild(noCheck);
 
         confirmNo.addEventListener("click", async () => {
-          console.log("testing testing testing");
           confirmYes.remove();
           confirmNo.remove();
           confirmText.remove();
@@ -177,7 +170,6 @@ function User(props: any) {
             body: JSON.stringify({ titleOfPost: titleText }),
             credentials: "include",
           });
-          console.log(response.json());
 
           //now as part of the event listener we will delete the post from the screen after hte response has been retrived
           postContainer!.classList.add("removePost");
@@ -190,7 +182,6 @@ function User(props: any) {
 
   //added over from home page to close navbar if window size is changed too big
   window.addEventListener("resize", (e) => {
-    console.log("hello change");
     const navbar = document.getElementById("navbarId");
     const menuButton = document.getElementById("menu-btn-id");
 

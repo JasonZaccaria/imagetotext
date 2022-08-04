@@ -32,7 +32,6 @@ function Register() {
       body: JSON.stringify(data),
     });
     const content = await response.json();
-    console.log(content);
     if (Object.keys(content)[0] === "failure") {
       const emailInput: HTMLElement | null = document.getElementById("emailId");
       const passwordInput: HTMLElement | null =
@@ -74,15 +73,10 @@ function Register() {
   }
 
   function navbarClose(e: any): void {
-    console.log("clicking here");
-    console.log(menu);
     const slidingNav: HTMLElement | null = document.getElementById("navbarId");
     let sizeOfNav: number = slidingNav!.clientWidth;
     let currentMousePosition: number = e.pageX;
-    console.log(currentMousePosition);
-    console.log(sizeOfNav);
     if (menu && currentMousePosition > sizeOfNav) {
-      console.log("hasdfasfdasfda");
       slidingNav!.style.width = "0";
       setMenu(false);
       const hamburgerButton: HTMLElement | null =
@@ -117,7 +111,6 @@ function Register() {
   });
 
   window.addEventListener("load", (e) => {
-    console.log("im loaded up");
     if (window.innerWidth > 768) {
       const loginLink = document.getElementById("login-register-link-1");
       const logoutLink = document.getElementById("logout-register-link-2");
@@ -134,7 +127,6 @@ function Register() {
   });
 
   window.addEventListener("resize", (e) => {
-    console.log("hello change");
     const navbar = document.getElementById("navbarId");
     const menuButton = document.getElementById("menu-btn-id");
     if (window.innerWidth > 1023) {

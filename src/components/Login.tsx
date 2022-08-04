@@ -12,7 +12,6 @@ function Login() {
   /*below we will have our loggedIn context variable we are passed from our protected routes
   now we will use this logged in variable in our useeffect to adjust the links the user sees*/
   const loggedIn: boolean = useOutletContext();
-  console.log(loggedIn);
   //function to post user data to register them
   //also includes a request to check for a halt cookie if user has too many attempts
   async function post(e: any): Promise<void> {
@@ -41,7 +40,6 @@ function Login() {
         body: JSON.stringify(data),
       });
       const content = await response.json();
-      console.log(content);
       if (Object.keys(content)[0] === "accessToken") {
         window.location.replace("/");
       } else if (Object.keys(content)[0] === "halt") {
@@ -58,11 +56,9 @@ function Login() {
         passwordInput!.style.border = "solid 2px red";
         passwordInput!.style.borderRadius = "5px";
         forgotPassword!.style.display = "flex";
-        console.log("not workign as intended");
       }
       submitButton!.disabled = false;
       setIncorrectPass((incorrectPass += 1));
-      console.log(incorrectPass);
     } else {
       const haltUser = async () => {
         const url: string = `${process.env.REACT_APP_SERVER}/halt`;
@@ -76,11 +72,8 @@ function Login() {
           credentials: "include",
         });
         const getResponseJson = await response.json();
-        console.log(getResponseJson);
       };
       haltUser();
-      let c = document.cookie;
-      console.log(c);
     }
   }
 
@@ -109,15 +102,10 @@ function Login() {
 
   //here is our function for closing our navbar
   function navbarClose(e: any): void {
-    console.log("clicking here");
-    console.log(menu);
     const slidingNav: HTMLElement | null = document.getElementById("navbarId");
     let sizeOfNav: number = slidingNav!.clientWidth;
     let currentMousePosition: number = e.pageX;
-    console.log(currentMousePosition);
-    console.log(sizeOfNav);
     if (menu && currentMousePosition > sizeOfNav) {
-      console.log("hasdfasfdasfda");
       slidingNav!.style.width = "0";
       setMenu(false);
       const hamburgerButton: HTMLElement | null =
@@ -128,7 +116,6 @@ function Login() {
 
   //this function will be called on resizing to adjust the links we see when user is logged in or not
   window.addEventListener("load", (e) => {
-    console.log("heasdfdafsd");
     if (window.innerWidth > 768) {
       const registerLink: HTMLElement | null = document.getElementById(
         "register-login-link-1"
@@ -150,7 +137,6 @@ function Login() {
     }
   });
   window.addEventListener("resize", (e) => {
-    console.log("heasdfdafsd");
     if (window.innerWidth > 768) {
       const registerLink: HTMLElement | null = document.getElementById(
         "register-login-link-1"
@@ -174,7 +160,6 @@ function Login() {
 
   //this event listener closes our navbar when the screen gets too big
   window.addEventListener("resize", (e) => {
-    console.log("hello change");
     const navbar: HTMLElement | null = document.getElementById("navbarId");
     const menuButton: HTMLElement | null =
       document.getElementById("menu-btn-id");
