@@ -27,6 +27,7 @@ function Login() {
       const password: string = (
         document.getElementById("loginPasswordId") as HTMLInputElement
       ).value;
+      console.log(process.env.REACT_APP_SERVER);
       const url: string = `${process.env.REACT_APP_SERVER}/login`;
       const data = { user: email, pass: password };
       const response: Response = await fetch(url, {
