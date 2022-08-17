@@ -106,9 +106,11 @@ function User(props: any) {
       let DateConversion: string = `${dateMonth}/${dateDay}/${dateYear}`;
       newDate.innerText = DateConversion;
       newText.innerText = readResponse["image"][i][1];
-      let base64Img: string = readResponse["image"][i][2];
+      /*let base64Img: string = readResponse["image"][i][2];
       let mimeType: string = readResponse["image"][i][4];
-      newImg!.src = `data:${mimeType};base64,${base64Img}`;
+      newImg!.src = `data:${mimeType};base64,${base64Img}`;*/
+      //we need to update this so that we can get image from url
+      newImg!.src = readResponse["image"][i][2];
       imageSection?.appendChild(newUserPost);
       newUserPost.appendChild(newImgContainer);
       newImgContainer.appendChild(newImg);
