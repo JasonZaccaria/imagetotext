@@ -105,7 +105,7 @@ function Home() {
     const userButton: HTMLElement | null =
       document.getElementById("user-button-id");
 
-    if (/*loggedIn*/ loginState) {
+    if (/*loggedIn*/ !loginState) {
       registerButton!.style.display = "none";
       loginButton!.style.display = "none";
       logoutButton!.style.display = "flex";
