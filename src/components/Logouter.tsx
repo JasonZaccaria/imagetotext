@@ -11,7 +11,8 @@ async function logouter(): Promise<void> {
       credentials: "include",
     }
   );
-  document.location.href = "/";
+  //document.location.href = "/";
+  document.location.href = "/login";
 }
 
 export default logouter;
