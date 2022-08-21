@@ -92,8 +92,10 @@ function Home() {
   }
 
   //below function renders specific login buttons depending on the return value of our auth func
-  async function buttonRender(func: Function): Promise<void> {
-    func();
+  async function buttonRender(
+    /*func: Function*/ loginState: boolean
+  ): Promise<void> {
+    //func();
     const registerButton: HTMLElement | null =
       document.getElementById("register-button-id");
     const loginButton: HTMLElement | null =
@@ -103,7 +105,7 @@ function Home() {
     const userButton: HTMLElement | null =
       document.getElementById("user-button-id");
 
-    if (loggedIn) {
+    if (/*loggedIn*/ loginState) {
       registerButton!.style.display = "none";
       loginButton!.style.display = "none";
       logoutButton!.style.display = "flex";
@@ -309,8 +311,10 @@ function Home() {
     e.preventDefault();
   };
 
+  auth();
+
   useEffect(() => {
-    buttonRender(auth);
+    buttonRender(/*auth*/ loggedIn);
   }, [loggedIn]);
 
   return (
