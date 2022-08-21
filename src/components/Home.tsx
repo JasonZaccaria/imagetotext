@@ -311,7 +311,7 @@ function Home() {
     e.preventDefault();
   };
 
-  auth();
+  //auth();
 
   useEffect(() => {
     buttonRender(/*auth*/ loggedIn);
